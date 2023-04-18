@@ -4,7 +4,6 @@
 *.sln
 x64
 x86
-*.opendb
 
 # Prerequisites
 *.d
