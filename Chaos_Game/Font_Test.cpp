@@ -8,26 +8,16 @@ using namespace std;
 int main()
 {
     /*
-        Window stats
+       ~Window Stuff~
     */
 	VideoMode vm(1920, 1080);
 
     RenderWindow window(vm, "Chaos!", Style::Default);
 
-    Texture textureBackground;
 
-    if (!textureBackground.loadFromFile("backround_stars.png"))
-    {
-        // error...
-    }
-
-    Sprite spriteBackground;
-
-    spriteBackground.setTexture(textureBackground);
-    spriteBackground.setPosition(0, 0);
 
     /*
-        Font and Text!
+        ~Font and Text~
     */
     Font font;
 
@@ -54,14 +44,56 @@ int main()
     // set the text style
     text.setStyle(Text::Bold | Text::Underlined);
 
+    // set the position
+
     text.setPosition(10.f, 50.f);
 
 
 
 
+    /*
+        ~Sprites & Textures~
+    */
+
+
+    // Backround Sprite
+
+    Sprite spriteBackground;
+    Texture textureBackground;
+
+    if (!textureBackground.loadFromFile("backround_stars.png"))
+    {
+        // error...
+    }
+
+    spriteBackground.setTexture(textureBackground);
+    spriteBackground.setPosition(0, 0);
+
+ 
+
+
+    // Sprite for clicks
+
+    Sprite spriteClick;
+    Texture textureClick;
+
+    if (!textureClick.loadFromFile("kirby.png"))
+    {
+        // error...
+    }
+
+
+    spriteClick.setTexture(textureClick);
+
+
+    /*
+        ~Events~
+    */
+    int number_of_clicks = 0;
 
 
     // run the program as long as the window is open
+
     while (window.isOpen())
     {
         /*
@@ -70,13 +102,31 @@ int main()
          ****************************************
          */
 
+
         Event event;
         while (window.pollEvent(event))
         {
-            // "close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
-                window.close();
+            switch (event.type)
+            {
+
+                case Event::Closed:
+                    window.close();
+                    break;
+
+                case Event::MouseButtonPressed:
+                    if (Mouse::isButtonPressed(Mouse::Left))
+                    {
+                        number_of_clicks++;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
         }
+        
+
 
         /*
         ****************************************
@@ -97,8 +147,14 @@ int main()
         // Draw our game scene here
         window.draw(spriteBackground);
 
-        //Draw Text
+        // Draw Text
         window.draw(text);
+
+        // Draw spriteClick
+        for (int i = 0; i < number_of_clicks; i++)
+        {
+            window.draw(spriteClick);
+        }
 
         // Show everything we just drew
         window.display();
