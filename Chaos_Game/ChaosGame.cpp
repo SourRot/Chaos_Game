@@ -23,8 +23,8 @@ int main()
 	RenderWindow window(vm, "Chaos!", Style::Default);
 
 	// Create vectors
-	vector<Vector2f> vertices;	//Initial 3 points (user clicks)
-	vector<Vector2f> newPoints;	//Halfway points that are generated
+	vector<Vector2f> vertices;	// Initial 3 points (user clicks)
+	vector<Vector2f> newPoints;	// Halfway points that are generated
 
 	// Loading font
 	Font font;
@@ -42,9 +42,26 @@ int main()
 	// Create a sprite
 	Sprite spriteBackground;
 
-	// Attach the texture to the sprite
-	spriteBackground.setTexture(textureBackground);
+	// Setting the texture of the sprite and scaling it to our window
 
+	Vector2u TextureSize;  // Added to store texture size.
+	Vector2u WindowSize;   // Added to store window size.
+
+	if (!textureBackground.loadFromFile("background_stars.png"))
+	{
+		return -1;
+	}
+	else
+	{
+		TextureSize = textureBackground.getSize(); // Get size of texture.
+		WindowSize = window.getSize();             // Get size of window.
+
+		float ScaleX = (float)WindowSize.x / TextureSize.x;
+		float ScaleY = (float)WindowSize.y / TextureSize.y;     // Calculate scale.
+
+		spriteBackground.setTexture(textureBackground);
+		spriteBackground.setScale(ScaleX, ScaleY);      // Set scale.  
+	}
 	// Set the spriteBackground to cover the screen
 	spriteBackground.setPosition(0, 0);
 
@@ -53,6 +70,7 @@ int main()
 
 	// Track whether the game is running
 	bool paused = true;
+
 
 	while (window.isOpen())
 	{
