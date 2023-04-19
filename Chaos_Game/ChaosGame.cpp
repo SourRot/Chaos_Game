@@ -10,8 +10,6 @@
 using namespace sf;
 using namespace std;
 
-// Gonna come back to this to see why the smaller window clicks aren't matching https://github.com/rhermle/ChaosGameStarterCode (It's the mouse click events done for us)
-
 int main()
 {
 	float width = VideoMode::getDesktopMode().width;
@@ -30,7 +28,7 @@ int main()
 
 	// Loading font
 	Font font;
-	font.loadFromFile("./Chaos_Game/Kanit-Thin.ttf");
+	font.loadFromFile("Kanit-Thin.ttf");
 	Text messageText;
 	messageText.setFont(font);
 	messageText.setCharacterSize(22);
@@ -39,7 +37,7 @@ int main()
 	Texture textureBackground;
 
 	// Load a graphic into the texture
-	textureBackground.loadFromFile("./Chaos_Game/background_stars.png");
+	textureBackground.loadFromFile("background_stars.png");
 
 	// Create a sprite
 	Sprite spriteBackground;
