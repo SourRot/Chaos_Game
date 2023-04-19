@@ -49,12 +49,12 @@ int main()
     text.setCharacterSize(16); // in pixels, not points!
 
     // set the color
-    text.setFillColor(Color::Black);
+    text.setFillColor(Color::Yellow);
 
     // set the text style
     text.setStyle(Text::Bold | Text::Underlined);
 
-
+    text.setPosition(10.f, 50.f);
 
 
 
@@ -70,9 +70,12 @@ int main()
          ****************************************
          */
 
-        if (Keyboard::isKeyPressed(Keyboard::Escape))
+        Event event;
+        while (window.pollEvent(event))
         {
-            window.close();
+            // "close requested" event: we close the window
+            if (event.type == sf::Event::Closed)
+                window.close();
         }
 
         /*
@@ -93,6 +96,9 @@ int main()
 
         // Draw our game scene here
         window.draw(spriteBackground);
+
+        //Draw Text
+        window.draw(text);
 
         // Show everything we just drew
         window.display();
