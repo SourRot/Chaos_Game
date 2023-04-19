@@ -89,7 +89,15 @@ int main()
     /*
         ~Events~
     */
+
+
+    /*
+        We need to declare our data structure outside of the while loop
+
+        I currently have it set to just increasing # of clicks as a proof that the event section works and registers mouse clicks
+    */
     int number_of_clicks = 0;
+
 
 
     // run the program as long as the window is open
@@ -102,8 +110,12 @@ int main()
          ****************************************
          */
 
-
+        // our event variable
         Event event;
+
+
+        // This while loop checks for events and does different things based on which event happened
+
         while (window.pollEvent(event))
         {
             switch (event.type)
@@ -116,7 +128,19 @@ int main()
                 case Event::MouseButtonPressed:
                     if (Mouse::isButtonPressed(Mouse::Left))
                     {
+                        /*
+                            We need to get the position of the mouse and store this in our data structure
+
+                                This code snippet assigns the mouse position to a vector of 2 ints
+                                    Vector2i localPosition = Mouse::getPosition(window);
+
+                                Useful pages
+                                    https://www.sfml-dev.org/documentation/2.5.1/structsf_1_1Event_1_1MouseButtonEvent.php#a49b937b311729174950787781aafcdc7
+                                    https://www.sfml-dev.org/tutorials/2.5/graphics-transform.php
+                        
+                        */
                         number_of_clicks++;
+
                     }
                     break;
 
@@ -150,7 +174,18 @@ int main()
         // Draw Text
         window.draw(text);
 
-        // Draw spriteClick
+        /*
+            This is going to be the function for drawing our sprites on mouse clicks     
+      
+                while (something)
+                {
+                    window.draw(spriteClick);
+                }
+            Currently I have it set a wonky for() loop for proof of concept on event usage
+
+            This is eventually going to be a rectangle instead of a sprite
+
+        */
         for (int i = 0; i < number_of_clicks; i++)
         {
             window.draw(spriteClick);
