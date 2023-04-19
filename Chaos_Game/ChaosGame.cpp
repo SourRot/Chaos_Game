@@ -16,8 +16,8 @@ int main()
 	float height = VideoMode::getDesktopMode().height;
 	View view(FloatRect(0.f, 0.f, width, height));
 	// Create a video mode object
-	//VideoMode vm(1920, 1080);
 	VideoMode vm(width, height);
+	//VideoMode vm(800, 600);
 
 	// Create and open a window for the game
 	RenderWindow window(vm, "Chaos!", Style::Default);
@@ -101,6 +101,8 @@ int main()
 
 		// Clear everything from the last frame
 		window.clear();
+
+		window.setView(view);
 
 		// Draw background
 		window.draw(spriteBackground);
