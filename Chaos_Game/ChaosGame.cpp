@@ -1,3 +1,5 @@
+// PARTNERS: Tareq Anwaryar and Rachel Greer
+
 // Include important C++ libraries here
 #include <sstream>
 #include <SFML/Graphics.hpp>
@@ -22,8 +24,9 @@ int main()
 	// Create and open a window for the game
 	RenderWindow window(vm, "Chaos!", Style::Default);
 
-	// Create vector
-	vector<Vector2f> vertices;
+	// Create vectors
+	vector<Vector2f> vertices;	//Initial 3 points (user clicks)
+	vector<Vector2f> newPoints;	//Halfway points that are generated
 
 	// Loading font
 	Font font;
@@ -116,7 +119,9 @@ int main()
 			window.draw(shape);
 		}
 
+		// Draw our text
 		window.draw(messageText);
+
 		// Show everything we just drew
 		window.display();
 
