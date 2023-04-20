@@ -3,6 +3,8 @@
 // Include important C++ libraries here
 #include <sstream>
 #include <SFML/Graphics.hpp>
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 
 //I changed something
@@ -29,6 +31,8 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 
 	//float scaling = numberOfNodes / ( numberOfNodes + 3 );
 
+	srand(time(0));
+
 	int num = rand() % 3;
 
 	float x1 = startingPoints.at(startingPoints.size() - 1).x;
@@ -49,7 +53,7 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 	for (size_t i = 0; i < 2000; i++)
 	{
 			
-			selection = rand() % startingPoints.size();
+			//selection = rand() % startingPoints.size();
 
 			//randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) * scaling, (randomPoint.y + startingPoints.at(selection).y) * scaling);
 			num = rand() % 3;
