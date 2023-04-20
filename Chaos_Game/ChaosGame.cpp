@@ -70,66 +70,217 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 
 int main()
 {
-	float width = VideoMode::getDesktopMode().width;
-	float height = VideoMode::getDesktopMode().height;
-	View view(FloatRect(0.f, 0.f, width, height));
+
+
 	// Create a video mode object
-	VideoMode vm(width, height);
-	//VideoMode vm(800, 600);
+		// Values for desktop scaling
+			float width = VideoMode::getDesktopMode().width;
+			float height = VideoMode::getDesktopMode().height;
+			View view(FloatRect(0.f, 0.f, width, height));
+		VideoMode vm(width, height);
+		
 
 	// Create and open a window for the game
-	RenderWindow window(vm, "Chaos!", Style::Default);
+		RenderWindow window(vm, "Chaos!", Style::Default);
 
 	// Create vectors
-	vector<Vector2f> vertices;	// Initial 3 points (user clicks)
-	vector<Vector2f> newPoints;	// Halfway points that are generated
+		vector<Vector2f> vertices;	// Initial 3 points (user clicks)
+		vector<Vector2f> newPoints;	// Halfway points that are generated
 
 	// Loading font
-	Font font;
-	font.loadFromFile("./Kanit-Thin.ttf");
-	Text messageText;
+		Font font;
+		font.loadFromFile("./Kanit-Thin.ttf");
+		Text messageText;
 
 	// Set font and font size
-	messageText.setFont(font);
-	messageText.setCharacterSize(44);
+		messageText.setFont(font);
+		messageText.setCharacterSize(44);
+
+	// Buttons
+
+		// Variables for various button parts
+			Text triangleButton;
+			Sprite spriteTriangleButton;
+
+			Text rectangleButton;
+			Sprite spriteRectangleButton;
+
+			Text hexagonButton;
+			Sprite spriteHexagonButton;
+
+			Text resetButton;
+			Sprite spriteResetButton;
+
+			Vector2f buttonScaling = {2, 2 };
+
+		// Button fonts
+			triangleButton.setFont(font);
+			triangleButton.setCharacterSize(44);
+			triangleButton.setColor(Color::Black);
+
+			rectangleButton.setFont(font);
+			rectangleButton.setCharacterSize(44);
+			rectangleButton.setColor(Color::Black);
+
+			hexagonButton.setFont(font);
+			hexagonButton.setCharacterSize(44);
+			hexagonButton.setColor(Color::Black);
+
+			resetButton.setFont(font);
+			resetButton.setCharacterSize(44);
+			resetButton.setColor(Color::Black);
+
+		// Button texts
+			triangleButton.setString("Triangle");
+			rectangleButton.setString("Rectangle");
+			hexagonButton.setString("Hexagon");
+			resetButton.setString("Reset");
+
+	// Button texture assignment
+
+		// Create a texture for button
+			Texture textureButton;
+
+		// Load a graphic into the texture
+			textureButton.loadFromFile("./button_backround.png");
+
+		// Button texture time
+
+			// Triangle
+				spriteTriangleButton.setTexture(textureButton);
+
+			// Rectangle
+				spriteRectangleButton.setTexture(textureButton);
+
+			// Hexagon
+				spriteHexagonButton.setTexture(textureButton);
+
+			// Reset
+				spriteResetButton.setTexture(textureButton);
+
+		// Button Positions
+
+			// Triangle
+				
+				// Text
+					FloatRect triangleButtonRect = triangleButton.getLocalBounds();
+					triangleButton.setOrigin(triangleButtonRect.left +
+						triangleButtonRect.width / 2.0f,
+						triangleButtonRect.top +
+						triangleButtonRect.height / 2.0f);
+					triangleButton.setPosition(width / 12.0f, 200);
+
+				// Sprite
+					FloatRect trianglesSpriteRect = spriteTriangleButton.getLocalBounds();
+					spriteTriangleButton.setOrigin(trianglesSpriteRect.left +
+						trianglesSpriteRect.width / 2.0f,
+						trianglesSpriteRect.top +
+						trianglesSpriteRect.height / 2.0f);
+					spriteTriangleButton.setPosition(width / 12.0f, 200);
+
+
+			// Rectangle
+			
+				// Text
+					FloatRect rectangleButtonRect = rectangleButton.getLocalBounds();
+					rectangleButton.setOrigin(rectangleButtonRect.left +
+						rectangleButtonRect.width / 2.0f,
+						rectangleButtonRect.top +
+						rectangleButtonRect.height / 2.0f);
+					rectangleButton.setPosition(width / 12.0f, 400);
+
+				// Sprite
+					FloatRect rectangleSpriteRect = spriteRectangleButton.getLocalBounds();
+					spriteRectangleButton.setOrigin(rectangleSpriteRect.left +
+						rectangleSpriteRect.width / 2.0f,
+						rectangleSpriteRect.top +
+						rectangleSpriteRect.height / 2.0f);
+					spriteRectangleButton.setPosition(width / 12.0f, 400);
+
+			// Hexagon
+			
+				// Text
+					FloatRect hexagonButtonRect = hexagonButton.getLocalBounds();
+					hexagonButton.setOrigin(hexagonButtonRect.left +
+						hexagonButtonRect.width / 2.0f,
+						hexagonButtonRect.top +
+						hexagonButtonRect.height / 2.0f);
+					hexagonButton.setPosition(width / 12.0f, 600);
+
+				// Sprite 
+					FloatRect hexagonSpriteRect = spriteHexagonButton.getLocalBounds();
+					spriteHexagonButton.setOrigin(hexagonSpriteRect.left +
+						hexagonSpriteRect.width / 2.0f,
+						hexagonSpriteRect.top +
+						hexagonSpriteRect.height / 2.0f);
+					spriteHexagonButton.setPosition(width / 12.0f, 600);
+
+			// Reset
+			
+				// Text
+					FloatRect resetButtonRect = resetButton.getLocalBounds();
+					resetButton.setOrigin(resetButtonRect.left +
+						resetButtonRect.width / 2.0f,
+						resetButtonRect.top +
+						resetButtonRect.height / 2.0f);
+					resetButton.setPosition(width / 12.0f, 800);
+
+				// Sprite
+					FloatRect resetSpriteRect = spriteResetButton.getLocalBounds();
+					spriteResetButton.setOrigin(resetSpriteRect.left +
+						resetSpriteRect.width / 2.0f,
+						resetSpriteRect.top +
+						resetSpriteRect.height / 2.0f);
+					spriteResetButton.setPosition(width / 12.0f, 800);
+
+			// Button sprite resizing
+					spriteTriangleButton.scale(buttonScaling);
+
+					spriteRectangleButton.scale(buttonScaling);
+					spriteHexagonButton.scale(buttonScaling);
+					spriteResetButton.scale(buttonScaling);
 
 	// Create a texture to hold a graphic on the GPU
-	Texture textureBackground;
+		Texture textureBackground;
 
 	// Load a graphic into the texture
-	textureBackground.loadFromFile("./background_stars.png");
+		textureBackground.loadFromFile("./background_stars.png");
 
-	// Create a sprite
-	Sprite spriteBackground;
+	// Backround sprite creation
+		Sprite spriteBackground;
 
 	// Setting the texture of the sprite and scaling it to our window
-	Vector2u TextureSize;  // Added to store texture size.
-	Vector2u WindowSize;   // Added to store window size.
+		Vector2u TextureSize;  // Added to store texture size.
+		Vector2u WindowSize;   // Added to store window size.
 
-	if (!textureBackground.loadFromFile("background_stars.png"))
-	{
-		return -1;
-	}
-	else
-	{
-		TextureSize = textureBackground.getSize(); // Get size of texture.
-		WindowSize = window.getSize();             // Get size of window.
+		if (!textureBackground.loadFromFile("background_stars.png"))
+		{
+			return -1;
+		}
+		else
+		{
+			TextureSize = textureBackground.getSize(); // Get size of texture.
+			WindowSize = window.getSize();             // Get size of window.
 
-		float ScaleX = (float)WindowSize.x / TextureSize.x;
-		float ScaleY = (float)WindowSize.y / TextureSize.y;     // Calculate scale.
+			float ScaleX = (float)WindowSize.x / TextureSize.x;
+			float ScaleY = (float)WindowSize.y / TextureSize.y;     // Calculate scale.
 
-		spriteBackground.setTexture(textureBackground);
-		spriteBackground.setScale(ScaleX, ScaleY);      // Set scale.  
-	}
+			spriteBackground.setTexture(textureBackground);
+			spriteBackground.setScale(ScaleX, ScaleY);      // Set scale.  
+		}
 	// Set the spriteBackground to cover the screen
-	spriteBackground.setPosition(0, 0);
+		spriteBackground.setPosition(0, 0);
+
 
 	// Variables to control time itself
-	Clock clock;
+		Clock clock;
 
 	// Track whether the game is running
-	bool paused = false;
-	int nodes = 0;
+		bool created = false;
+		int nodes = 0;
+		int nodes_max = 0;
+		bool reset = false;
+		bool selection_made = false;
 
 
 
@@ -152,28 +303,55 @@ int main()
 			{
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
+					auto mouse_pos = Mouse::getPosition(window);
+					auto translated_pos = window.mapPixelToCoords(mouse_pos);
 
-					if (vertices.size() < 5)
+
+					if (spriteTriangleButton.getGlobalBounds().contains(translated_pos))
+					{
+						nodes_max = 3;
+						selection_made = true;
+					}
+					else if (spriteRectangleButton.getGlobalBounds().contains(translated_pos))
+					{
+						nodes_max = 4;
+						selection_made = true;
+					}
+					else if (spriteHexagonButton.getGlobalBounds().contains(translated_pos))
+					{
+						nodes_max = 5;
+						selection_made = true;
+					}
+					/*else if (spriteResetButton.getGlobalBounds().contains(translated_pos))
+					{
+						created = false;
+						selection_made = false;
+					}
+					*/
+					else if (selection_made = true && nodes_max > 1)
 					{
 						std::cout << "the left button was pressed" << std::endl;
 						std::cout << "mouse x: " << event.mouseButton.x << std::endl;
 						std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 
-						Vector2i pixelPos = { event.mouseButton.x, event.mouseButton.y };
-						Vector2f worldPos = window.mapPixelToCoords(pixelPos, view);
-						vertices.push_back(worldPos);
-						//vertices.push_back(Vector2f(event.mouseButton.x, event.mouseButton.y));
-						nodes++;
+						if (nodes < nodes_max)
+						{
+							Vector2i pixelPos = { event.mouseButton.x, event.mouseButton.y };
+							Vector2f worldPos = window.mapPixelToCoords(pixelPos, view);
+							vertices.push_back(worldPos);
+							nodes++;
+						}
 					}
 				}
 			}
 
 			if (Keyboard::isKeyPressed(Keyboard::Space))
 			{
-				if (vertices.size() >= 3)
+				if (nodes_max >= 3)
 				{
 						fractalCreation((float)nodes, vertices, newPoints);
-						
+						created = true;
+
 				}
 			}
 		}
@@ -185,9 +363,9 @@ int main()
 
 		// Update the text
 		stringstream ss;
-		if (vertices.size() < 3)
+		if (created == false && selection_made == false)
 		{
-			ss << "Click anywhere to make vertices";
+			ss << "Choose your shape!";
 			messageText.setString(ss.str());
 			FloatRect textRect = messageText.getLocalBounds();
 			messageText.setOrigin(textRect.left +
@@ -196,9 +374,45 @@ int main()
 				textRect.height / 2.0f);
 			messageText.setPosition(width / 2.0f, 100);
 		}
-		else
+		else if (selection_made = true)
 		{
-			ss << "Alright that's 3! Time to start building your star! Give us another click" << endl << nodes << endl;
+			if (nodes_max == 3)
+			{
+				ss << "Triangle? It's a little basic... but alright!";
+				messageText.setString(ss.str());
+				FloatRect textRect = messageText.getLocalBounds();
+				messageText.setOrigin(textRect.left +
+					textRect.width / 2.0f,
+					textRect.top +
+					textRect.height / 2.0f);
+				messageText.setPosition(width / 2.0f, 100);
+			}
+			else if (nodes_max == 4)
+			{
+				ss << "Rectangle! Now we're heating up!";
+				messageText.setString(ss.str());
+				FloatRect textRect = messageText.getLocalBounds();
+				messageText.setOrigin(textRect.left +
+					textRect.width / 2.0f,
+					textRect.top +
+					textRect.height / 2.0f);
+				messageText.setPosition(width / 2.0f, 100);
+			}
+			else if (nodes_max == 5)
+			{
+				ss << "Woah!! A hexagon! You're going crazy!";
+				messageText.setString(ss.str());
+				FloatRect textRect = messageText.getLocalBounds();
+				messageText.setOrigin(textRect.left +
+					textRect.width / 2.0f,
+					textRect.top +
+					textRect.height / 2.0f);
+				messageText.setPosition(width / 2.0f, 100);
+			}
+		}
+		else if (created == true)
+		{
+			ss << "Beautiful...";
 			messageText.setString(ss.str());
 			FloatRect textRect = messageText.getLocalBounds();
 			messageText.setOrigin(textRect.left +
@@ -207,46 +421,70 @@ int main()
 				textRect.height / 2.0f);
 			messageText.setPosition(width / 2.0f, 100);
 		}
+
+		// Button functionality
+
+
+
 
 		// Clear everything from the last frame
-		window.clear();
+			window.clear();
 
-		window.setView(view);
+			window.setView(view);
 
 		// Draw background
-		window.draw(spriteBackground);
+			window.draw(spriteBackground);
 
-		// Draw the points
-		RectangleShape shape{ Vector2f{4,4} };
-		shape.setFillColor(Color::Cyan);
-		for (size_t i = 0; i < vertices.size(); i++)
-		{
-			FloatRect pointRect = shape.getLocalBounds();	// FINALLY FIXED THE POINT POSITION HOLY FLIP << THE MAN IS INSANE
-			shape.setOrigin(pointRect.left +
-				pointRect.width / 2.0f,
-				pointRect.top +
-				pointRect.height / 2.0f);
-			shape.setPosition(Vector2f{ vertices.at(i) });
-			window.draw(shape);
-		}
+		// Draw the points user clicks
 
-		// Draw our text
-		window.draw(messageText);
+			RectangleShape shape{ Vector2f{4,4} };
+			shape.setFillColor(Color::Cyan);
+			for (size_t i = 0; i < vertices.size(); i++)
+			{
+				FloatRect pointRect = shape.getLocalBounds();	// FINALLY FIXED THE POINT POSITION HOLY FLIP << THE MAN IS INSANE
+				shape.setOrigin(pointRect.left +
+					pointRect.width / 2.0f,
+					pointRect.top +
+					pointRect.height / 2.0f);
+				shape.setPosition(Vector2f{ vertices.at(i) });
+				window.draw(shape);
+			}
 
-		for (size_t i = 0; i < newPoints.size(); i++)
-		{
 
-			//window.clear(); // ***** this does something very cool/funny
+			// Basic message text
+				window.draw(messageText);
 
-			FloatRect pointRect = shape.getLocalBounds();
-			shape.setOrigin(pointRect.left +
-				pointRect.width / 2.0f,
-				pointRect.top +
-				pointRect.height / 2.0f);
+			
+			// Buttons
+				window.draw(spriteTriangleButton);
+				window.draw(triangleButton);
+				
+				window.draw(spriteRectangleButton);
+				window.draw(rectangleButton);
 
-			shape.setPosition(Vector2f{ newPoints.at(i) });
-			window.draw(shape);
-		}
+				window.draw(spriteHexagonButton);
+				window.draw(hexagonButton);
+
+				window.draw(spriteResetButton);
+				window.draw(resetButton);
+
+
+		// Drawing the fractal
+
+			for (size_t i = 0; i < newPoints.size(); i++)
+			{
+
+				//window.clear(); // ***** this does something very cool/funny
+
+				FloatRect pointRect = shape.getLocalBounds();
+				shape.setOrigin(pointRect.left +
+					pointRect.width / 2.0f,
+					pointRect.top +
+					pointRect.height / 2.0f);
+
+				shape.setPosition(Vector2f{ newPoints.at(i) });
+				window.draw(shape);
+			}
 
 		// Show everything we just drew
 		window.display();
