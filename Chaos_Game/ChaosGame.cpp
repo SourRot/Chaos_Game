@@ -10,9 +10,11 @@
 using namespace sf;
 using namespace std;
 
+
+
 // Example call: fractalCreation(vertices.at(0), vertices.at(1), vertices.at(2));
 
-void fractalCreation(Vector2f point1, Vector2f point2, Vector2f point3, vector<Vector2f>& createdPoints)
+void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vector<Vector2f>& createdPoints)
 {
 	/*
 		Choose a random point inside of the triangle
@@ -24,34 +26,28 @@ void fractalCreation(Vector2f point1, Vector2f point2, Vector2f point3, vector<V
 
 
 	*/
-	Vector2f randomPoint( (point1.x + point2.x) / 2, ( point1.y + point2.y ) / 2 );
+
+	float scaling = numberOfNodes / ( numberOfNodes + 3 );
+
+	Vector2f randomPoint( (startingPoints.at(0).x + startingPoints.at(1).x) * scaling, (startingPoints.at(0).y + startingPoints.at(1).y) * scaling);
 	createdPoints.push_back(randomPoint);
 	int selection = 0;
-
 	
 	
-	for (size_t i = 0; i < 500; i++)
+	
+	for (size_t i = 0; i < 2000; i++)
 	{
 			
-			selection = rand() % 3 + 1;
+			selection = rand() % startingPoints.size();
 
-			if (selection == 1) 
-			{
-				randomPoint = Vector2f((randomPoint.x + point1.x) / 2, (randomPoint.y + point1.y) / 2);
-			}
-			else if (selection == 2) 
-			{
-				randomPoint = Vector2f((randomPoint.x + point2.x) / 2, (randomPoint.y + point2.y) / 2);
-			}
-			else if (selection == 3) 
-			{
-				randomPoint = Vector2f((randomPoint.x + point3.x) / 2, (randomPoint.y + point3.y) / 2);
-			}
+			randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) * scaling, (randomPoint.y + startingPoints.at(selection).y) * scaling);
 			
 			createdPoints.push_back(randomPoint);
 	}
 
 }
+
+
 
 int main()
 {
@@ -113,7 +109,9 @@ int main()
 	Clock clock;
 
 	// Track whether the game is running
-	bool paused = true;
+	bool paused = false;
+	int nodes = 0;
+
 
 
 
@@ -136,7 +134,7 @@ int main()
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
 
-					if (vertices.size() < 4)
+					if (vertices.size() < 5)
 					{
 						std::cout << "the left button was pressed" << std::endl;
 						std::cout << "mouse x: " << event.mouseButton.x << std::endl;
@@ -146,15 +144,17 @@ int main()
 						Vector2f worldPos = window.mapPixelToCoords(pixelPos, view);
 						vertices.push_back(worldPos);
 						//vertices.push_back(Vector2f(event.mouseButton.x, event.mouseButton.y));
+						nodes++;
 					}
+				}
+			}
 
-					else
-					if (vertices.size() >= 4)
-					{
-						paused = false;
-						cout << "Game unpaused" << endl;
-						break;
-					}
+			if (Keyboard::isKeyPressed(Keyboard::Space))
+			{
+				if (vertices.size() >= 3)
+				{
+						fractalCreation((float)nodes, vertices, newPoints);
+						
 				}
 			}
 		}
@@ -179,7 +179,7 @@ int main()
 		}
 		else
 		{
-			ss << "Alright that's 3! Time to start building your star! Give us another click";
+			ss << "Alright that's 3! Time to start building your star! Give us another click" << endl << nodes << endl;
 			messageText.setString(ss.str());
 			FloatRect textRect = messageText.getLocalBounds();
 			messageText.setOrigin(textRect.left +
@@ -211,32 +211,23 @@ int main()
 			window.draw(shape);
 		}
 
-
-		// Creating the vector of new points
-		while (paused == false)
-		{
-			fractalCreation(vertices.at(0), vertices.at(1), vertices.at(2), newPoints);
-			paused = true;
-		}
+		// Draw our text
+		window.draw(messageText);
 
 		for (size_t i = 0; i < newPoints.size(); i++)
 		{
-			FloatRect pointRect = shape.getLocalBounds();	
+
+			//window.clear(); // ***** this does something very cool/funny
+
+			FloatRect pointRect = shape.getLocalBounds();
 			shape.setOrigin(pointRect.left +
 				pointRect.width / 2.0f,
 				pointRect.top +
 				pointRect.height / 2.0f);
-			shape.setPosition(Vector2f{ newPoints.at(i)});
 
+			shape.setPosition(Vector2f{ newPoints.at(i) });
 			window.draw(shape);
-			window.display();
-			sleep(milliseconds(20));
-
 		}
-		
-
-		// Draw our text
-		window.draw(messageText);
 
 		// Show everything we just drew
 		window.display();
