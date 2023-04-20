@@ -27,9 +27,20 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 
 	*/
 
-	float scaling = numberOfNodes / ( numberOfNodes + 3 );
+	//float scaling = numberOfNodes / ( numberOfNodes + 3 );
 
-	Vector2f randomPoint( (startingPoints.at(0).x + startingPoints.at(1).x) * scaling, (startingPoints.at(0).y + startingPoints.at(1).y) * scaling);
+	int num = rand() % 3;
+
+	float x1 = startingPoints.at(startingPoints.size() - 1).x;
+	float y1 = startingPoints.at(startingPoints.size() - 1).y;
+	float x2 = startingPoints.at(num).x;
+	float y2 = startingPoints.at(num).y;
+
+	float newX = (x1 + x2) / 2;
+	float newY = (y1 + y2) / 2;
+
+	//Vector2f randomPoint( (startingPoints.at(0).x + startingPoints.at(1).x) * scaling, (startingPoints.at(0).y + startingPoints.at(1).y) * scaling);
+	Vector2f randomPoint(newX, newY);
 	createdPoints.push_back(randomPoint);
 	int selection = 0;
 	
@@ -40,7 +51,17 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 			
 			selection = rand() % startingPoints.size();
 
-			randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) * scaling, (randomPoint.y + startingPoints.at(selection).y) * scaling);
+			//randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) * scaling, (randomPoint.y + startingPoints.at(selection).y) * scaling);
+			num = rand() % 3;
+
+			x1 = randomPoint.x;
+			y1 = randomPoint.y;
+			x2 = startingPoints.at(num).x;
+			y2 = startingPoints.at(num).y;
+
+			newX = (x1 + x2) / 2;
+			newY = (y1 + y2) / 2;
+			randomPoint = Vector2f(newX, newY);
 			
 			createdPoints.push_back(randomPoint);
 	}
