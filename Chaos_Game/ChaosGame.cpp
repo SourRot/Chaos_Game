@@ -31,6 +31,9 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 
 	float scaling = numberOfNodes / (numberOfNodes + 3);
 	Vector2f randomPoint(0, 0);
+
+
+
 	if (startingPoints.at(0).x > startingPoints.at(1).x)
 	{
 		randomPoint.x = startingPoints.at(0).x + (startingPoints.at(1).x - startingPoints.at(0).x) * scaling;
@@ -57,8 +60,15 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 	{
 
 		selection = rand() % startingPoints.size();
+		if (numberOfNodes == 3)
+		{
+			randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) / 2, (randomPoint.y + startingPoints.at(selection).y) / 2);
+		}
+		else 
+		{
+			randomPoint = Vector2f(randomPoint.x + (startingPoints.at(selection).x - randomPoint.x) * scaling, randomPoint.y + (startingPoints.at(selection).y - randomPoint.y) * scaling);
+		}
 
-		randomPoint = Vector2f(randomPoint.x + (startingPoints.at(selection).x - randomPoint.x) * scaling, randomPoint.y + (startingPoints.at(selection).y - randomPoint.y) * scaling);
 		//randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) * scaling, (randomPoint.y + startingPoints.at(selection).y) * scaling);
 
 		createdPoints.push_back(randomPoint);
@@ -108,8 +118,8 @@ int main()
 			Text hexagonButton;
 			Sprite spriteHexagonButton;
 
-			Text resetButton;
-			Sprite spriteResetButton;
+	//		Text resetButton;
+	//		Sprite spriteResetButton;
 
 			Vector2f buttonScaling = {2, 2 };
 
@@ -126,15 +136,15 @@ int main()
 			hexagonButton.setCharacterSize(44);
 			hexagonButton.setColor(Color::Black);
 
-			resetButton.setFont(font);
-			resetButton.setCharacterSize(44);
-			resetButton.setColor(Color::Black);
+	//		resetButton.setFont(font);
+	//		resetButton.setCharacterSize(44);
+	//		resetButton.setColor(Color::Black);
 
 		// Button texts
 			triangleButton.setString("Triangle");
 			rectangleButton.setString("Rectangle");
 			hexagonButton.setString("Hexagon");
-			resetButton.setString("Reset");
+		//	resetButton.setString("Reset");
 
 	// Button texture assignment
 
@@ -156,7 +166,7 @@ int main()
 				spriteHexagonButton.setTexture(textureButton);
 
 			// Reset
-				spriteResetButton.setTexture(textureButton);
+				//spriteResetButton.setTexture(textureButton);
 
 		// Button Positions
 
@@ -215,7 +225,7 @@ int main()
 						hexagonSpriteRect.height / 2.0f);
 					spriteHexagonButton.setPosition(width / 12.0f, 600);
 
-			// Reset
+		/*	// Reset
 			
 				// Text
 					FloatRect resetButtonRect = resetButton.getLocalBounds();
@@ -232,13 +242,15 @@ int main()
 						resetSpriteRect.top +
 						resetSpriteRect.height / 2.0f);
 					spriteResetButton.setPosition(width / 12.0f, 800);
+					*/
 
 			// Button sprite resizing
 					spriteTriangleButton.scale(buttonScaling);
 
 					spriteRectangleButton.scale(buttonScaling);
 					spriteHexagonButton.scale(buttonScaling);
-					spriteResetButton.scale(buttonScaling);
+					//spriteResetButton.scale(buttonScaling);
+					
 
 	// Create a texture to hold a graphic on the GPU
 		Texture textureBackground;
@@ -271,9 +283,12 @@ int main()
 	// Set the spriteBackground to cover the screen
 		spriteBackground.setPosition(0, 0);
 
+	// The orb
+	Texture textureKirby;
+	textureKirby.loadFromFile("./kirby_fixed_size.png");
 
-	// Variables to control time itself
-		Clock clock;
+	Sprite kirby;
+	kirby.setTexture(textureKirby);
 
 	// Track whether the game is running
 		bool created = false;
@@ -365,7 +380,7 @@ int main()
 		stringstream ss;
 		if (created == false && selection_made == false)
 		{
-			ss << "Choose your shape!";
+			ss << "Choose your shape! Press spacebar to multiply the Kirbys";
 			messageText.setString(ss.str());
 			FloatRect textRect = messageText.getLocalBounds();
 			messageText.setOrigin(textRect.left +
@@ -400,7 +415,7 @@ int main()
 			}
 			else if (nodes_max == 5)
 			{
-				ss << "Woah!! A hexagon! You're going crazy!";
+				ss << "Kirby spaceship at maximum capacity";
 				messageText.setString(ss.str());
 				FloatRect textRect = messageText.getLocalBounds();
 				messageText.setOrigin(textRect.left +
@@ -422,11 +437,6 @@ int main()
 			messageText.setPosition(width / 2.0f, 100);
 		}
 
-		// Button functionality
-
-
-
-
 		// Clear everything from the last frame
 			window.clear();
 
@@ -435,20 +445,23 @@ int main()
 		// Draw background
 			window.draw(spriteBackground);
 
-		// Draw the points user clicks
-
-			RectangleShape shape{ Vector2f{4,4} };
-			shape.setFillColor(Color::Cyan);
-			for (size_t i = 0; i < vertices.size(); i++)
-			{
-				FloatRect pointRect = shape.getLocalBounds();	// FINALLY FIXED THE POINT POSITION HOLY FLIP << THE MAN IS INSANE
-				shape.setOrigin(pointRect.left +
-					pointRect.width / 2.0f,
-					pointRect.top +
-					pointRect.height / 2.0f);
-				shape.setPosition(Vector2f{ vertices.at(i) });
-				window.draw(shape);
-			}
+		// Draw the points
+		//RectangleShape shape{ Vector2f{4,4} };
+		//shape.setFillColor(Color::Cyan);
+		for (size_t i = 0; i < vertices.size(); i++)
+		{
+			//FloatRect pointRect = shape.getLocalBounds();	// FINALLY FIXED THE POINT POSITION HOLY FLIP << THE MAN IS INSANE
+			FloatRect pointRect = kirby.getLocalBounds();
+			//shape.setOrigin(pointRect.left +
+			kirby.setOrigin(pointRect.left +
+				pointRect.width / 2.0f,
+				pointRect.top +
+				pointRect.height / 2.0f);
+			//shape.setPosition(Vector2f{ vertices.at(i) });
+			kirby.setPosition(Vector2f{ vertices.at(i) });
+			//window.draw(shape);
+			window.draw(kirby);
+		}
 
 
 			// Basic message text
@@ -465,8 +478,8 @@ int main()
 				window.draw(spriteHexagonButton);
 				window.draw(hexagonButton);
 
-				window.draw(spriteResetButton);
-				window.draw(resetButton);
+				//window.draw(spriteResetButton);
+				//window.draw(resetButton);
 
 
 		// Drawing the fractal
@@ -476,15 +489,19 @@ int main()
 
 				//window.clear(); // ***** this does something very cool/funny
 
-				FloatRect pointRect = shape.getLocalBounds();
-				shape.setOrigin(pointRect.left +
-					pointRect.width / 2.0f,
-					pointRect.top +
-					pointRect.height / 2.0f);
+			//FloatRect pointRect = shape.getLocalBounds();
+			FloatRect pointRect = kirby.getLocalBounds();
+			//shape.setOrigin(pointRect.left +
+			kirby.setOrigin(pointRect.left +
+				pointRect.width / 2.0f,
+				pointRect.top +
+				pointRect.height / 2.0f);
 
-				shape.setPosition(Vector2f{ newPoints.at(i) });
-				window.draw(shape);
-			}
+			//shape.setPosition(Vector2f{ newPoints.at(i) });
+			kirby.setPosition(Vector2f{ newPoints.at(i) });
+			//window.draw(shape);
+			window.draw(kirby);
+		}
 
 		// Show everything we just drew
 		window.display();
