@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
 #include <iostream>
 
 //I changed something
@@ -16,7 +17,7 @@ using namespace std;
 
 // Example call: fractalCreation(vertices.at(0), vertices.at(1), vertices.at(2));
 
-void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vector<Vector2f>& createdPoints)
+void fractalCreation(int numberOfNodes, vector<Vector2f> startingPoints, vector<Vector2f>& createdPoints)
 {
 	/*
 		Choose a random point inside of the triangle
@@ -29,9 +30,50 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 
 	*/
 
-	float scaling = numberOfNodes / (numberOfNodes + 3);
-	Vector2f randomPoint(0, 0);
-	if (startingPoints.at(0).x > startingPoints.at(1).x)
+	//float scaling = numberOfNodes / (numberOfNodes + 3);
+	//Vector2f randomPoint(0, 0);
+	srand(time(0));
+
+	numberOfNodes--;
+
+	int num = rand() % numberOfNodes;
+
+	float x1 = startingPoints.at(startingPoints.size() - 1).x;
+	float y1 = startingPoints.at(startingPoints.size() - 1).y;
+	float x2 = startingPoints.at(num).x;
+	float y2 = startingPoints.at(num).y;
+
+	float newX = (x1 + x2) / 2;
+	float newY = (y1 + y2) / 2;
+
+	Vector2f randomPoint(newX, newY);
+	createdPoints.push_back(randomPoint);
+
+	for (size_t i = 0; i < 2000; i++)
+	{
+
+		//selection = rand() % startingPoints.size();
+
+		//randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) * scaling, (randomPoint.y + startingPoints.at(selection).y) * scaling);
+		num = rand() % numberOfNodes;
+
+		x1 = randomPoint.x;
+		y1 = randomPoint.y;
+		x2 = startingPoints.at(num).x;
+		y2 = startingPoints.at(num).y;
+
+		newX = (x1 + x2) / 2;
+		newY = (y1 + y2) / 2;
+		randomPoint = Vector2f(newX, newY);
+
+		if (find(createdPoints.begin(), createdPoints.end(), randomPoint) != createdPoints.end())
+		{
+			createdPoints.push_back(randomPoint);
+		}
+
+	}
+
+	/*if (startingPoints.at(0).x > startingPoints.at(1).x)
 	{
 		randomPoint.x = startingPoints.at(0).x + (startingPoints.at(1).x - startingPoints.at(0).x) * scaling;
 	}
@@ -50,15 +92,16 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 	//Vector2f randomPoint( (startingPoints.at(0).x + startingPoints.at(1).x) * scaling, (startingPoints.at(0).y + startingPoints.at(1).y) * scaling);
 	createdPoints.push_back(randomPoint);
 	int selection = 0;
+	*/
 
 
 
 	for (size_t i = 0; i < 5000; i++)
 	{
 
-		selection = rand() % startingPoints.size();
+		//selection = rand() % startingPoints.size();
 
-		randomPoint = Vector2f(randomPoint.x + (startingPoints.at(selection).x - randomPoint.x) * scaling, randomPoint.y + (startingPoints.at(selection).y - randomPoint.y) * scaling);
+		//randomPoint = Vector2f(randomPoint.x + (startingPoints.at(selection).x - randomPoint.x) * scaling, randomPoint.y + (startingPoints.at(selection).y - randomPoint.y) * scaling);
 		//randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) * scaling, (randomPoint.y + startingPoints.at(selection).y) * scaling);
 
 		createdPoints.push_back(randomPoint);
@@ -176,7 +219,7 @@ int main()
 			{
 				if (vertices.size() >= 3)
 				{
-						fractalCreation((float)nodes, vertices, newPoints);
+						fractalCreation(nodes, vertices, newPoints);
 						
 				}
 			}
@@ -221,21 +264,21 @@ int main()
 		window.draw(spriteBackground);
 
 		// Draw the points
-		//RectangleShape shape{ Vector2f{4,4} };
-		//shape.setFillColor(Color::Cyan);
+		RectangleShape shape{ Vector2f{4,4} };
+		shape.setFillColor(Color::Cyan);
 		for (size_t i = 0; i < vertices.size(); i++)
 		{
-			//FloatRect pointRect = shape.getLocalBounds();	// FINALLY FIXED THE POINT POSITION HOLY FLIP << THE MAN IS INSANE
-			FloatRect pointRect = kirby.getLocalBounds();
-			//shape.setOrigin(pointRect.left +
-			kirby.setOrigin(pointRect.left +
+			FloatRect pointRect = shape.getLocalBounds();	// FINALLY FIXED THE POINT POSITION HOLY FLIP << THE MAN IS INSANE
+			//FloatRect pointRect = kirby.getLocalBounds();
+			shape.setOrigin(pointRect.left +
+			//kirby.setOrigin(pointRect.left +
 				pointRect.width / 2.0f,
 				pointRect.top +
 				pointRect.height / 2.0f);
-			//shape.setPosition(Vector2f{ vertices.at(i) });
-			kirby.setPosition(Vector2f{ vertices.at(i) });
-			//window.draw(shape);
-			window.draw(kirby);
+			shape.setPosition(Vector2f{ vertices.at(i) });
+			//kirby.setPosition(Vector2f{ vertices.at(i) });
+			window.draw(shape);
+			//window.draw(kirby);
 		}
 
 		// Draw our text
@@ -246,18 +289,18 @@ int main()
 
 			//window.clear(); // ***** this does something very cool/funny
 
-			//FloatRect pointRect = shape.getLocalBounds();
-			FloatRect pointRect = kirby.getLocalBounds();
-			//shape.setOrigin(pointRect.left +
-			kirby.setOrigin(pointRect.left +
+			FloatRect pointRect = shape.getLocalBounds();
+			//FloatRect pointRect = kirby.getLocalBounds();
+			shape.setOrigin(pointRect.left +
+			//kirby.setOrigin(pointRect.left +
 				pointRect.width / 2.0f,
 				pointRect.top +
 				pointRect.height / 2.0f);
 
-			//shape.setPosition(Vector2f{ newPoints.at(i) });
-			kirby.setPosition(Vector2f{ newPoints.at(i) });
-			//window.draw(shape);
-			window.draw(kirby);
+			shape.setPosition(Vector2f{ newPoints.at(i) });
+			//kirby.setPosition(Vector2f{ newPoints.at(i) });
+			window.draw(shape);
+			//window.draw(kirby);
 		}
 
 		// Show everything we just drew
