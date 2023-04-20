@@ -154,6 +154,11 @@ int main()
 			window.draw(shape);
 		}
 
+		while (paused = false)
+		{
+			// Game time
+		}
+
 		// Draw our text
 		window.draw(messageText);
 
