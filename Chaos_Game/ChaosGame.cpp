@@ -108,13 +108,13 @@ int main()
 						cout << "Time to start building your star" << endl;
 						Vector2i pixelPos = { event.mouseButton.x, event.mouseButton.y };
 						Vector2f worldPos = window.mapPixelToCoords(pixelPos, view);
-						vertices.push_back(worldPos);
+						vertices.push_back(worldPos);		//Not sure why this isn't being drawn on 4th click
 						paused = false;
 						
 					}
 					else
 					{
-						cout << "Woah there, cowboy. Cool it with the clicks." << endl;
+						cout << "Woah there, cowboy. Cool it with the clicks." << endl;	// Lol
 						break;
 					}
 				}
@@ -150,6 +150,11 @@ int main()
 		shape.setFillColor(Color::Cyan);
 		for (size_t i = 0; i < vertices.size(); i++)
 		{
+			FloatRect pointRect = shape.getLocalBounds();
+			shape.setOrigin(pointRect.left +
+				pointRect.width / 2.0f,
+				pointRect.top +
+				pointRect.height / 2.0f);
 			shape.setPosition(Vector2f{ vertices.at(i) });
 			window.draw(shape);
 		}
