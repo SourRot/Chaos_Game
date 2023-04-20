@@ -113,9 +113,10 @@ int main()
 						paused = false;
 						
 					}*/
-					else
+					if (vertices.size() >= 4)
 					{
 						paused = false;
+						cout << "Game unpaused" << endl;
 						break;
 					}
 				}
@@ -177,6 +178,28 @@ int main()
 		while (paused = false)
 		{
 			// Game time
+			int num = rand() % 3;
+			RectangleShape newVertex{ Vector2f{4,4} };
+			newVertex.setFillColor(Color::Cyan);
+
+			int finalPos = vertices.size() - 1;
+			Vector2f finalVertex = vertices.at(finalPos);
+			float x1 = finalVertex.x;
+			float y1 = finalVertex.y;
+			Vector2f tempVertex = vertices.at(num);
+			float x2 = tempVertex.x;
+			float y2 = tempVertex.y;
+
+			float newX = (x1 + x2) / 2;
+			float newY = (y1 + y2) / 2;
+
+			//newVertex.setOrigin //do the same stuff as before, however it works for this
+			newVertex.setPosition(newX, newY);
+			Vector2f newPoint = newVertex.getPosition();
+			vertices.push_back(newPoint);
+			window.draw(newVertex);
+
+			cout << "New point created" << endl;
 		}
 
 		// Draw our text
