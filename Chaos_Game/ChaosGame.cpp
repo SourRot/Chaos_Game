@@ -30,8 +30,10 @@ int main()
 	Font font;
 	font.loadFromFile("Kanit-Thin.ttf");
 	Text messageText;
+
+	// Set font and font size
 	messageText.setFont(font);
-	messageText.setCharacterSize(22);
+	messageText.setCharacterSize(44);
 
 	// Create a texture to hold a graphic on the GPU
 	Texture textureBackground;
@@ -128,14 +130,28 @@ int main()
 
 		// Update the text
 		stringstream ss;
-		ss << "Vertex count = " << vertices.size();
-		messageText.setString(ss.str());
-		FloatRect textRect = messageText.getLocalBounds();
-		messageText.setOrigin(textRect.left +
-			textRect.width / 2.0f,
-			textRect.top +
-			textRect.height / 2.0f);
-		messageText.setPosition(width / 2.0f, 100);
+		if (vertices.size() < 3)
+		{
+			ss << "Click anywhere to make a vertice";
+			messageText.setString(ss.str());
+			FloatRect textRect = messageText.getLocalBounds();
+			messageText.setOrigin(textRect.left +
+				textRect.width / 2.0f,
+				textRect.top +
+				textRect.height / 2.0f);
+			messageText.setPosition(width / 2.0f, 100);
+		}
+		else
+		{
+			ss << "Time to start building your star";
+			messageText.setString(ss.str());
+			FloatRect textRect = messageText.getLocalBounds();
+			messageText.setOrigin(textRect.left +
+				textRect.width / 2.0f,
+				textRect.top +
+				textRect.height / 2.0f);
+			messageText.setPosition(width / 2.0f, 100);
+		}
 
 		// Clear everything from the last frame
 		window.clear();
@@ -150,7 +166,7 @@ int main()
 		shape.setFillColor(Color::Cyan);
 		for (size_t i = 0; i < vertices.size(); i++)
 		{
-			FloatRect pointRect = shape.getLocalBounds();
+			FloatRect pointRect = shape.getLocalBounds();	// FINALLY FIXED THE POINT POSITION HOLY FLIP
 			shape.setOrigin(pointRect.left +
 				pointRect.width / 2.0f,
 				pointRect.top +
