@@ -45,7 +45,6 @@ int main()
 	Sprite spriteBackground;
 
 	// Setting the texture of the sprite and scaling it to our window
-
 	Vector2u TextureSize;  // Added to store texture size.
 	Vector2u WindowSize;   // Added to store window size.
 
@@ -94,7 +93,7 @@ int main()
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
 
-					if (vertices.size() < 3)
+					if (vertices.size() < 4)
 					{
 						std::cout << "the left button was pressed" << std::endl;
 						std::cout << "mouse x: " << event.mouseButton.x << std::endl;
@@ -105,7 +104,7 @@ int main()
 						vertices.push_back(worldPos);
 						//vertices.push_back(Vector2f(event.mouseButton.x, event.mouseButton.y));
 					}
-					else if (paused == true)
+					/*else if (paused == true)
 					{
 						cout << "Time to start building your star" << endl;
 						Vector2i pixelPos = { event.mouseButton.x, event.mouseButton.y };
@@ -113,10 +112,10 @@ int main()
 						vertices.push_back(worldPos);		//Not sure why this isn't being drawn on 4th click
 						paused = false;
 						
-					}
+					}*/
 					else
 					{
-						cout << "Woah there, cowboy. Cool it with the clicks." << endl;	// Lol
+						paused = false;
 						break;
 					}
 				}
@@ -132,7 +131,7 @@ int main()
 		stringstream ss;
 		if (vertices.size() < 3)
 		{
-			ss << "Click anywhere to make a vertice";
+			ss << "Click anywhere to make vertices";
 			messageText.setString(ss.str());
 			FloatRect textRect = messageText.getLocalBounds();
 			messageText.setOrigin(textRect.left +
@@ -143,7 +142,7 @@ int main()
 		}
 		else
 		{
-			ss << "Time to start building your star";
+			ss << "Alright that's 3! Time to start building your star! Give us another click";
 			messageText.setString(ss.str());
 			FloatRect textRect = messageText.getLocalBounds();
 			messageText.setOrigin(textRect.left +
