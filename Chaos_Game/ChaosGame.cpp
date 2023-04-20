@@ -92,7 +92,7 @@ int main()
 
 	// Loading font
 	Font font;
-	font.loadFromFile("Kanit-Thin.ttf");
+	font.loadFromFile("./Kanit-Thin.ttf");
 	Text messageText;
 
 	// Set font and font size
@@ -103,7 +103,7 @@ int main()
 	Texture textureBackground;
 
 	// Load a graphic into the texture
-	textureBackground.loadFromFile("background_stars.png");
+	textureBackground.loadFromFile("./background_stars.png");
 
 	// Create a sprite
 	Sprite spriteBackground;
