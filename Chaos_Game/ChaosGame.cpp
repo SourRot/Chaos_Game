@@ -15,22 +15,6 @@ using namespace std;
 void fractalCreation(Vector2f point1, Vector2f point2, Vector2f point3, vector<Vector2f>& createdPoints)
 {
 	/*
-		Rectangle creation:
-			RectangleShape shape{ Vector2f{4,4} };
-				shape.setFillColor(Color::Cyan);
-				for (size_t i = 0; i < vertices.size(); i++)
-				{
-					FloatRect pointRect = shape.getLocalBounds();	// FINALLY FIXED THE POINT POSITION HOLY FLIP << THE MAN IS INSANE
-					shape.setOrigin(pointRect.left +
-						pointRect.width / 2.0f,
-						pointRect.top +
-						pointRect.height / 2.0f);
-					shape.setPosition(Vector2f{ vertices.at(i) });
-					window.draw(shape);
-		}
-	*/
-
-	/*
 		Choose a random point inside of the triangle
 			A point halfway between 2 random points
 
