@@ -10,6 +10,65 @@
 using namespace sf;
 using namespace std;
 
+// Example call: fractalCreation(vertices.at(0), vertices.at(1), vertices.at(2));
+
+void fractalCreation(Vector2f point1, Vector2f point2, Vector2f point3, vector<Vector2f>& createdPoints)
+{
+	/*
+		Rectangle creation:
+			RectangleShape shape{ Vector2f{4,4} };
+				shape.setFillColor(Color::Cyan);
+				for (size_t i = 0; i < vertices.size(); i++)
+				{
+					FloatRect pointRect = shape.getLocalBounds();	// FINALLY FIXED THE POINT POSITION HOLY FLIP << THE MAN IS INSANE
+					shape.setOrigin(pointRect.left +
+						pointRect.width / 2.0f,
+						pointRect.top +
+						pointRect.height / 2.0f);
+					shape.setPosition(Vector2f{ vertices.at(i) });
+					window.draw(shape);
+		}
+	*/
+
+	/*
+		Choose a random point inside of the triangle
+			A point halfway between 2 random points
+
+		for() loop:
+			Take whatever the last point is (halfway point)
+			Draw a dot halfway between this point and 1 of the random initial points
+
+
+	*/
+	Vector2f randomPoint( (point1.x + point2.x) / 2, ( point1.y + point2.y ) / 2 );
+	createdPoints.push_back(randomPoint);
+	int selection = 0;
+
+	
+	
+	for (size_t i = 0; i < 500; i++)
+	{
+			
+			selection = rand() % 3 + 1;
+
+			if (selection == 1) 
+			{
+				randomPoint = Vector2f((randomPoint.x + point1.x) / 2, (randomPoint.y + point1.y) / 2);
+			}
+			else if (selection == 2) 
+			{
+				randomPoint = Vector2f((randomPoint.x + point2.x) / 2, (randomPoint.y + point2.y) / 2);
+			}
+			else if (selection == 3) 
+			{
+				randomPoint = Vector2f((randomPoint.x + point3.x) / 2, (randomPoint.y + point3.y) / 2);
+			}
+			
+			createdPoints.push_back(randomPoint);
+	}
+
+}
+
 int main()
 {
 	float width = VideoMode::getDesktopMode().width;
@@ -104,15 +163,7 @@ int main()
 						vertices.push_back(worldPos);
 						//vertices.push_back(Vector2f(event.mouseButton.x, event.mouseButton.y));
 					}
-					/*else if (paused == true)
-					{
-						cout << "Time to start building your star" << endl;
-						Vector2i pixelPos = { event.mouseButton.x, event.mouseButton.y };
-						Vector2f worldPos = window.mapPixelToCoords(pixelPos, view);
-						vertices.push_back(worldPos);		//Not sure why this isn't being drawn on 4th click
-						paused = false;
-						
-					}*/
+
 					else
 					{
 						paused = false;
@@ -165,7 +216,7 @@ int main()
 		shape.setFillColor(Color::Cyan);
 		for (size_t i = 0; i < vertices.size(); i++)
 		{
-			FloatRect pointRect = shape.getLocalBounds();	// FINALLY FIXED THE POINT POSITION HOLY FLIP
+			FloatRect pointRect = shape.getLocalBounds();	// FINALLY FIXED THE POINT POSITION HOLY FLIP << THE MAN IS INSANE
 			shape.setOrigin(pointRect.left +
 				pointRect.width / 2.0f,
 				pointRect.top +
@@ -174,10 +225,29 @@ int main()
 			window.draw(shape);
 		}
 
-		while (paused = false)
+
+		// Creating the vector of new points
+		while (paused == false)
 		{
-			// Game time
+			fractalCreation(vertices.at(0), vertices.at(1), vertices.at(2), newPoints);
+			paused = true;
 		}
+
+		for (size_t i = 0; i < newPoints.size(); i++)
+		{
+			FloatRect pointRect = shape.getLocalBounds();	
+			shape.setOrigin(pointRect.left +
+				pointRect.width / 2.0f,
+				pointRect.top +
+				pointRect.height / 2.0f);
+			shape.setPosition(Vector2f{ newPoints.at(i)});
+
+			window.draw(shape);
+			window.display();
+			sleep(milliseconds(20));
+
+		}
+		
 
 		// Draw our text
 		window.draw(messageText);
