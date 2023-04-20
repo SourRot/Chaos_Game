@@ -72,6 +72,7 @@ int main()
 	bool paused = true;
 
 
+
 	while (window.isOpen())
 	{
 
@@ -90,14 +91,32 @@ int main()
 			{
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
-					std::cout << "the left button was pressed" << std::endl;
-					std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-					std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 
-					Vector2i pixelPos = { event.mouseButton.x, event.mouseButton.y };
-					Vector2f worldPos = window.mapPixelToCoords(pixelPos, view);
-					vertices.push_back(worldPos);
-					//vertices.push_back(Vector2f(event.mouseButton.x, event.mouseButton.y));
+					if (vertices.size() < 3)
+					{
+						std::cout << "the left button was pressed" << std::endl;
+						std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+						std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+
+						Vector2i pixelPos = { event.mouseButton.x, event.mouseButton.y };
+						Vector2f worldPos = window.mapPixelToCoords(pixelPos, view);
+						vertices.push_back(worldPos);
+						//vertices.push_back(Vector2f(event.mouseButton.x, event.mouseButton.y));
+					}
+					else if (paused == true)
+					{
+						cout << "Time to start building your star" << endl;
+						Vector2i pixelPos = { event.mouseButton.x, event.mouseButton.y };
+						Vector2f worldPos = window.mapPixelToCoords(pixelPos, view);
+						vertices.push_back(worldPos);
+						paused = false;
+						
+					}
+					else
+					{
+						cout << "Woah there, cowboy. Cool it with the clicks." << endl;
+						break;
+					}
 				}
 			}
 		}
