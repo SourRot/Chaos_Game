@@ -165,8 +165,10 @@ int main()
 					}
 
 					else
+					if (vertices.size() >= 4)
 					{
 						paused = false;
+						cout << "Game unpaused" << endl;
 						break;
 					}
 				}
