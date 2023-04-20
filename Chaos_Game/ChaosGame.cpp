@@ -124,8 +124,12 @@ int main()
 	// Set the spriteBackground to cover the screen
 	spriteBackground.setPosition(0, 0);
 
-	// Variables to control time itself
-	Clock clock;
+	// The orb
+	Texture textureKirby;
+	textureKirby.loadFromFile("./kirby_fixed_size.png");
+
+	Sprite kirby;
+	kirby.setTexture(textureKirby);
 
 	// Track whether the game is running
 	bool paused = false;
@@ -217,17 +221,21 @@ int main()
 		window.draw(spriteBackground);
 
 		// Draw the points
-		RectangleShape shape{ Vector2f{4,4} };
-		shape.setFillColor(Color::Cyan);
+		//RectangleShape shape{ Vector2f{4,4} };
+		//shape.setFillColor(Color::Cyan);
 		for (size_t i = 0; i < vertices.size(); i++)
 		{
-			FloatRect pointRect = shape.getLocalBounds();	// FINALLY FIXED THE POINT POSITION HOLY FLIP << THE MAN IS INSANE
-			shape.setOrigin(pointRect.left +
+			//FloatRect pointRect = shape.getLocalBounds();	// FINALLY FIXED THE POINT POSITION HOLY FLIP << THE MAN IS INSANE
+			FloatRect pointRect = kirby.getLocalBounds();
+			//shape.setOrigin(pointRect.left +
+			kirby.setOrigin(pointRect.left +
 				pointRect.width / 2.0f,
 				pointRect.top +
 				pointRect.height / 2.0f);
-			shape.setPosition(Vector2f{ vertices.at(i) });
-			window.draw(shape);
+			//shape.setPosition(Vector2f{ vertices.at(i) });
+			kirby.setPosition(Vector2f{ vertices.at(i) });
+			//window.draw(shape);
+			window.draw(kirby);
 		}
 
 		// Draw our text
@@ -238,14 +246,18 @@ int main()
 
 			//window.clear(); // ***** this does something very cool/funny
 
-			FloatRect pointRect = shape.getLocalBounds();
-			shape.setOrigin(pointRect.left +
+			//FloatRect pointRect = shape.getLocalBounds();
+			FloatRect pointRect = kirby.getLocalBounds();
+			//shape.setOrigin(pointRect.left +
+			kirby.setOrigin(pointRect.left +
 				pointRect.width / 2.0f,
 				pointRect.top +
 				pointRect.height / 2.0f);
 
-			shape.setPosition(Vector2f{ newPoints.at(i) });
-			window.draw(shape);
+			//shape.setPosition(Vector2f{ newPoints.at(i) });
+			kirby.setPosition(Vector2f{ newPoints.at(i) });
+			//window.draw(shape);
+			window.draw(kirby);
 		}
 
 		// Show everything we just drew
