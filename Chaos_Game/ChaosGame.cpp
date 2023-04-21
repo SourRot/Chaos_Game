@@ -1,4 +1,4 @@
-// PARTNERS: Tareq Anwaryar and Rachel Greer
+// PARTNERS: Tareq Anwaryar and Rachael Greer
 
 // Include important C++ libraries here
 #include <sstream>
@@ -90,10 +90,14 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 		{
 			randomPoint = Vector2f(randomPoint.x + (startingPoints.at(selection).x - randomPoint.x) * .6666, randomPoint.y + (startingPoints.at(selection).y - randomPoint.y) * .6666);
 		}
-		else
+		else if (numberOfNodes == 6)
 		{
 			randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) / 2, (randomPoint.y + startingPoints.at(selection).y) / 2);
 			//randomPoint = Vector2f(randomPoint.x + (startingPoints.at(selection).x - randomPoint.x) * scaling, randomPoint.y + (startingPoints.at(selection).y - randomPoint.y) * scaling);
+		}
+		else
+		{
+			randomPoint = Vector2f(randomPoint.x + (startingPoints.at(selection).x - randomPoint.x) * scaling, randomPoint.y + (startingPoints.at(selection).y - randomPoint.y) * scaling);
 		}
 
 		//randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) * scaling, (randomPoint.y + startingPoints.at(selection).y) * scaling);
@@ -349,7 +353,7 @@ int main()
 			jumboKirbyRect.width / 2.0f,
 			jumboKirbyRect.top +
 			jumboKirbyRect.height / 2.0f);
-		secretJumboKirby.setPosition(width / 3.0f, 2000);
+		secretJumboKirby.setPosition(width / 3.0f, 1000);
 
 
 
@@ -442,7 +446,7 @@ int main()
 		{
 			if (nodes_max == 4)
 			{
-				ss << "Sierkirby Triangle";
+				ss << "Sierkirby Triangle:" << endl << "Keep clicking until you have 4 points";
 				messageText.setString(ss.str());
 				FloatRect textRect = messageText.getLocalBounds();
 				messageText.setOrigin(textRect.left +
@@ -453,7 +457,7 @@ int main()
 			}
 			else if (nodes_max == 5)
 			{
-				ss << "Kirbtangle!";
+				ss << "Kirbtangle!" << endl << "Keep clicking until you have 5 points";
 				messageText.setString(ss.str());
 				FloatRect textRect = messageText.getLocalBounds();
 				messageText.setOrigin(textRect.left +
@@ -464,7 +468,7 @@ int main()
 			}
 			else if (nodes_max == 6)
 			{
-				ss << "Kirbagon";
+				ss << "Kirbagon" << endl << "Keep clicking until you have 6 points";
 				messageText.setString(ss.str());
 				FloatRect textRect = messageText.getLocalBounds();
 				messageText.setOrigin(textRect.left +
@@ -473,7 +477,20 @@ int main()
 					textRect.height / 2.0f);
 				messageText.setPosition(width / 2.0f, 100);
 			}
+			else
+			{
+				ss << "Woah O_O" << endl << "Keep clicking until you have 10 points";
+				messageText.setString(ss.str());
+				FloatRect textRect = messageText.getLocalBounds();
+				messageText.setOrigin(textRect.left +
+					textRect.width / 2.0f,
+					textRect.top +
+					textRect.height / 2.0f);
+				messageText.setPosition(width / 2.0f, 100);
+
+			}
 		}
+		
 		else if (created == true)
 		{
 			ss << "Beautiful...";
