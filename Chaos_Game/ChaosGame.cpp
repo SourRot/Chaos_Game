@@ -30,6 +30,7 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 	*/
 
 	float scaling = numberOfNodes / (numberOfNodes + 3);
+
 	Vector2f randomPoint(0, 0);
 
 	Vector2f centerPoint(0, 0);
@@ -46,7 +47,10 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 	centerPoint.x = xTotal / numberOfNodes;
 	centerPoint.y = yTotal / numberOfNodes;
 
+	randomPoint = startingPoints.at(startingPoints.size()-1);
+	startingPoints.erase(startingPoints.begin() + startingPoints.size() - 1);
 
+	/*
 	if (startingPoints.at(0).x > startingPoints.at(1).x)
 	{
 		randomPoint.x = startingPoints.at(0).x + (startingPoints.at(0).x - startingPoints.at(1).x) * scaling;
@@ -64,12 +68,12 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 		randomPoint.y = startingPoints.at(0).y + (startingPoints.at(0).y - startingPoints.at(1).y) * scaling;
 	}
 	//Vector2f randomPoint( (startingPoints.at(0).x + startingPoints.at(1).x) * scaling, (startingPoints.at(0).y + startingPoints.at(1).y) * scaling);
-	
+	*/
 	createdPoints.push_back(randomPoint);
 	int selection = 0;
 
 
-	if (numberOfNodes == 4)
+	if (numberOfNodes == 5)
 	{
 		startingPoints.push_back(centerPoint);
 	}
@@ -78,17 +82,18 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 	{
 
 		selection = rand() % startingPoints.size();
-		if (numberOfNodes == 3)
+		if (numberOfNodes == 4)
 		{
 			randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) / 2, (randomPoint.y + startingPoints.at(selection).y) / 2);
 		}
-		else if (numberOfNodes == 4)
+		else if (numberOfNodes == 5)
 		{
 			randomPoint = Vector2f(randomPoint.x + (startingPoints.at(selection).x - randomPoint.x) * .6666, randomPoint.y + (startingPoints.at(selection).y - randomPoint.y) * .6666);
 		}
 		else
 		{
-			randomPoint = Vector2f(randomPoint.x + (startingPoints.at(selection).x - randomPoint.x) * scaling, randomPoint.y + (startingPoints.at(selection).y - randomPoint.y) * scaling);
+			randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) / 2, (randomPoint.y + startingPoints.at(selection).y) / 2);
+			//randomPoint = Vector2f(randomPoint.x + (startingPoints.at(selection).x - randomPoint.x) * scaling, randomPoint.y + (startingPoints.at(selection).y - randomPoint.y) * scaling);
 		}
 
 		//randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) * scaling, (randomPoint.y + startingPoints.at(selection).y) * scaling);
@@ -96,7 +101,7 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 		createdPoints.push_back(randomPoint);
 	}
 
-	if (numberOfNodes == 4)
+	if (numberOfNodes == 5)
 	{
 		startingPoints.erase(startingPoints.begin() + startingPoints.size() - 1);
 	}
@@ -134,6 +139,33 @@ int main()
 		messageText.setFont(font);
 		messageText.setCharacterSize(44);
 
+	// Create a texture to hold a graphic on the GPU
+	Texture textureBackground;
+
+	// Backround sprite creation
+	Sprite spriteBackground;
+
+	// Setting the texture of the sprite and scaling it to our window
+	Vector2u TextureSize;  // Added to store texture size.
+	Vector2u WindowSize;   // Added to store window size.
+
+	if (!textureBackground.loadFromFile("./background_stars.png"))
+	{
+		return -1;
+	}
+	else
+	{
+		TextureSize = textureBackground.getSize(); // Get size of texture.
+		WindowSize = window.getSize();             // Get size of window.
+
+		float ScaleX = (float)WindowSize.x / TextureSize.x;
+		float ScaleY = (float)WindowSize.y / TextureSize.y;     // Calculate scale.
+
+		spriteBackground.setTexture(textureBackground);
+		spriteBackground.setScale(ScaleX, ScaleY);      // Set scale.  
+	}
+	// Set the spriteBackground to cover the screen
+	spriteBackground.setPosition(0, 0);
 	// Buttons
 
 		// Variables for various button parts
@@ -142,9 +174,9 @@ int main()
 
 			Text rectangleButton;
 			Sprite spriteRectangleButton;
-
-			Text rhombusButton;
-			Sprite spriteRhombusButton;
+			
+			Text pentagonButton;
+			Sprite spritePentagonButton;
 
 	//		Text resetButton;
 	//		Sprite spriteResetButton;
@@ -160,9 +192,9 @@ int main()
 			rectangleButton.setCharacterSize(44);
 			rectangleButton.setColor(Color::Black);
 
-			rhombusButton.setFont(font);
-			rhombusButton.setCharacterSize(44);
-			rhombusButton.setColor(Color::Black);
+			pentagonButton.setFont(font);
+			pentagonButton.setCharacterSize(44);
+			pentagonButton.setColor(Color::Black);
 
 	//		resetButton.setFont(font);
 	//		resetButton.setCharacterSize(44);
@@ -171,7 +203,7 @@ int main()
 		// Button texts
 			triangleButton.setString("Triangle");
 			rectangleButton.setString("Rectangle");
-			rhombusButton.setString("Rhombus");
+			pentagonButton.setString("Pentagon");
 		//	resetButton.setString("Reset");
 
 	// Button texture assignment
@@ -191,7 +223,7 @@ int main()
 				spriteRectangleButton.setTexture(textureButton);
 
 			// Hexagon
-				spriteRhombusButton.setTexture(textureButton);
+				spritePentagonButton.setTexture(textureButton);
 
 			// Reset
 				//spriteResetButton.setTexture(textureButton);
@@ -238,20 +270,20 @@ int main()
 			// Rhombus
 			
 				// Text
-					FloatRect rhombusButtonRect = rhombusButton.getLocalBounds();
-					rhombusButton.setOrigin(rhombusButtonRect.left +
-						rhombusButtonRect.width / 2.0f,
-						rhombusButtonRect.top +
-						rhombusButtonRect.height / 2.0f);
-					rhombusButton.setPosition(width / 12.0f, 600);
+					FloatRect pentagonButtonRect = pentagonButton.getLocalBounds();
+					pentagonButton.setOrigin(pentagonButtonRect.left +
+						pentagonButtonRect.width / 2.0f,
+						pentagonButtonRect.top +
+						pentagonButtonRect.height / 2.0f);
+					pentagonButton.setPosition(width / 12.0f, 600);
 
 				// Sprite 
-					FloatRect rhombusSpriteRect = spriteRhombusButton.getLocalBounds();
-					spriteRhombusButton.setOrigin(rhombusSpriteRect.left +
+					FloatRect rhombusSpriteRect = spritePentagonButton.getLocalBounds();
+					spritePentagonButton.setOrigin(rhombusSpriteRect.left +
 						rhombusSpriteRect.width / 2.0f,
 						rhombusSpriteRect.top +
 						rhombusSpriteRect.height / 2.0f);
-					spriteRhombusButton.setPosition(width / 12.0f, 600);
+					spritePentagonButton.setPosition(width / 12.0f, 600);
 
 		/*	// Reset
 			
@@ -276,37 +308,10 @@ int main()
 					spriteTriangleButton.scale(buttonScaling);
 
 					spriteRectangleButton.scale(buttonScaling);
-					spriteRhombusButton.scale(buttonScaling);
+					spritePentagonButton.scale(buttonScaling);
 					//spriteResetButton.scale(buttonScaling);
 					
 
-	// Create a texture to hold a graphic on the GPU
-		Texture textureBackground;
-
-	// Backround sprite creation
-		Sprite spriteBackground;
-
-	// Setting the texture of the sprite and scaling it to our window
-		Vector2u TextureSize;  // Added to store texture size.
-		Vector2u WindowSize;   // Added to store window size.
-
-		if (!textureBackground.loadFromFile("./background_stars.png"))
-		{
-			return -1;
-		}
-		else
-		{
-			TextureSize = textureBackground.getSize(); // Get size of texture.
-			WindowSize = window.getSize();             // Get size of window.
-
-			float ScaleX = (float)WindowSize.x / TextureSize.x;
-			float ScaleY = (float)WindowSize.y / TextureSize.y;     // Calculate scale.
-
-			spriteBackground.setTexture(textureBackground);
-			spriteBackground.setScale(ScaleX, ScaleY);      // Set scale.  
-		}
-	// Set the spriteBackground to cover the screen
-		spriteBackground.setPosition(0, 0);
 
 	// The orb
 	Texture textureKirby;
@@ -314,7 +319,6 @@ int main()
 
 	Sprite kirby;
 	kirby.setTexture(textureKirby);
-
 
 	Vector2f kirbyScaling = { .2, .2 };
 
@@ -354,17 +358,17 @@ int main()
 
 					if (spriteTriangleButton.getGlobalBounds().contains(translated_pos))
 					{
-						nodes_max = 3;
+						nodes_max = 4;
 						selection_made = true;
 					}
 					else if (spriteRectangleButton.getGlobalBounds().contains(translated_pos))
 					{
-						nodes_max = 4;
+						nodes_max = 5;
 						selection_made = true;
 					}
-					else if (spriteRhombusButton.getGlobalBounds().contains(translated_pos))
+					else if (spritePentagonButton.getGlobalBounds().contains(translated_pos))
 					{
-						nodes_max = 5;
+						nodes_max = 6;
 						selection_made = true;
 					}
 					/*else if (spriteResetButton.getGlobalBounds().contains(translated_pos))
@@ -413,7 +417,7 @@ int main()
 		}
 		else if (selection_made = true)
 		{
-			if (nodes_max == 3)
+			if (nodes_max == 4)
 			{
 				ss << "Triangle? It's a little basic... but alright!";
 				messageText.setString(ss.str());
@@ -424,7 +428,7 @@ int main()
 					textRect.height / 2.0f);
 				messageText.setPosition(width / 2.0f, 100);
 			}
-			else if (nodes_max == 4)
+			else if (nodes_max == 5)
 			{
 				ss << "Rectangle! Now we're heating up!";
 				messageText.setString(ss.str());
@@ -435,7 +439,7 @@ int main()
 					textRect.height / 2.0f);
 				messageText.setPosition(width / 2.0f, 100);
 			}
-			else if (nodes_max == 5)
+			else if (nodes_max == 6)
 			{
 				ss << "Kirby spaceship at maximum capacity";
 				messageText.setString(ss.str());
@@ -494,26 +498,22 @@ int main()
 			window.draw(kirby);
 		}
 
-
-
-
-			// Basic message text
-				window.draw(messageText);
+		// Basic message text
+			window.draw(messageText);
 
 			
-			// Buttons
-				window.draw(spriteTriangleButton);
-				window.draw(triangleButton);
+		// Buttons
+			window.draw(spriteTriangleButton);
+			window.draw(triangleButton);
 				
-				window.draw(spriteRectangleButton);
-				window.draw(rectangleButton);
+			window.draw(spriteRectangleButton);
+			window.draw(rectangleButton);
 
-				window.draw(spriteRhombusButton);
-				window.draw(rhombusButton);
+			window.draw(spritePentagonButton);
+			window.draw(pentagonButton);
 
-				//window.draw(spriteResetButton);
-				//window.draw(resetButton);
-
+			//window.draw(spriteResetButton);
+			//window.draw(resetButton);
 
 		// Drawing the fractal
 
