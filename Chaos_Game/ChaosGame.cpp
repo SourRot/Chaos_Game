@@ -39,11 +39,7 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 
 	for (int i = 0; i < numberOfNodes; i++)
 	{
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> e344b0bfa99bd23215e3f560126d161724ce3588
 		xTotal += startingPoints.at(i).x;
 		yTotal += startingPoints.at(i).y;
 
@@ -51,11 +47,7 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 	centerPoint.x = xTotal / numberOfNodes;
 	centerPoint.y = yTotal / numberOfNodes;
 
-<<<<<<< HEAD
 	randomPoint = startingPoints.at(startingPoints.size() - 1);
-=======
-	randomPoint = startingPoints.at(startingPoints.size()-1);
->>>>>>> e344b0bfa99bd23215e3f560126d161724ce3588
 	startingPoints.erase(startingPoints.begin() + startingPoints.size() - 1);
 
 	/*
@@ -113,11 +105,7 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 	{
 		startingPoints.erase(startingPoints.begin() + startingPoints.size() - 1);
 	}
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> e344b0bfa99bd23215e3f560126d161724ce3588
 
 }
 
@@ -129,35 +117,27 @@ int main()
 
 	// Create a video mode object
 		// Values for desktop scaling
-<<<<<<< HEAD
 	float width = VideoMode::getDesktopMode().width;
 	float height = VideoMode::getDesktopMode().height;
 	View view(FloatRect(0.f, 0.f, width, height));
 	VideoMode vm(width, height);
 
-=======
-			float width = VideoMode::getDesktopMode().width;
-			float height = VideoMode::getDesktopMode().height;
-			View view(FloatRect(0.f, 0.f, width, height));
-		VideoMode vm(width, height);
-		
->>>>>>> e344b0bfa99bd23215e3f560126d161724ce3588
 
 	// Create and open a window for the game
-		RenderWindow window(vm, "Chaos!", Style::Default);
+	RenderWindow window(vm, "Chaos!", Style::Default);
 
 	// Create vectors
-		vector<Vector2f> vertices;	// Initial 3 points (user clicks)
-		vector<Vector2f> newPoints;	// Halfway points that are generated
+	vector<Vector2f> vertices;	// Initial 3 points (user clicks)
+	vector<Vector2f> newPoints;	// Halfway points that are generated
 
 	// Loading font
-		Font font;
-		font.loadFromFile("./Kanit-Thin.ttf");
-		Text messageText;
+	Font font;
+	font.loadFromFile("./Kanit-Thin.ttf");
+	Text messageText;
 
 	// Set font and font size
-		messageText.setFont(font);
-		messageText.setCharacterSize(44);
+	messageText.setFont(font);
+	messageText.setCharacterSize(44);
 
 	// Create a texture to hold a graphic on the GPU
 	Texture textureBackground;
@@ -191,7 +171,6 @@ int main()
 	// Buttons
 
 		// Variables for various button parts
-<<<<<<< HEAD
 	Text triangleButton;
 	Sprite spriteTriangleButton;
 
@@ -229,50 +208,10 @@ int main()
 	rectangleButton.setString("Rectangle");
 	pentagonButton.setString("Pentagon");
 	goCrazyButton.setString("Go Crazy");
-=======
-			Text triangleButton;
-			Sprite spriteTriangleButton;
-
-			Text rectangleButton;
-			Sprite spriteRectangleButton;
-			
-			Text pentagonButton;
-			Sprite spritePentagonButton;
-
-			Text goCrazyButton;
-			Sprite spriteGoCrazyButton;
-
-
-			Vector2f buttonScaling = {2, 2 };
-
-		// Button fonts
-			triangleButton.setFont(font);
-			triangleButton.setCharacterSize(44);
-			triangleButton.setColor(Color::Black);
-
-			rectangleButton.setFont(font);
-			rectangleButton.setCharacterSize(44);
-			rectangleButton.setColor(Color::Black);
-
-			pentagonButton.setFont(font);
-			pentagonButton.setCharacterSize(44);
-			pentagonButton.setColor(Color::Black);
-
-			goCrazyButton.setFont(font);
-			goCrazyButton.setCharacterSize(44);
-			goCrazyButton.setColor(Color::Black);
-
-		// Button texts
-			triangleButton.setString("Triangle");
-			rectangleButton.setString("Rectangle");
-			pentagonButton.setString("Pentagon");
-			goCrazyButton.setString("Go Crazy");
->>>>>>> e344b0bfa99bd23215e3f560126d161724ce3588
 
 	// Button texture assignment
 
 		// Create a texture for button
-<<<<<<< HEAD
 	Texture textureButton;
 
 	// Load a graphic into the texture
@@ -375,110 +314,6 @@ int main()
 	spritePentagonButton.scale(buttonScaling);
 	spriteGoCrazyButton.scale(buttonScaling);
 
-=======
-			Texture textureButton;
-
-		// Load a graphic into the texture
-			textureButton.loadFromFile("./button_backround.png");
-
-		// Button texture time
-
-			// Triangle
-				spriteTriangleButton.setTexture(textureButton);
-
-			// Rectangle
-				spriteRectangleButton.setTexture(textureButton);
-
-			// Hexagon
-				spritePentagonButton.setTexture(textureButton);
-
-			// Reset
-				spriteGoCrazyButton.setTexture(textureButton);
-
-		// Button Positions
-
-			// Triangle
-				
-				// Text
-					FloatRect triangleButtonRect = triangleButton.getLocalBounds();
-					triangleButton.setOrigin(triangleButtonRect.left +
-						triangleButtonRect.width / 2.0f,
-						triangleButtonRect.top +
-						triangleButtonRect.height / 2.0f);
-					triangleButton.setPosition(width / 12.0f, 200);
-
-				// Sprite
-					FloatRect trianglesSpriteRect = spriteTriangleButton.getLocalBounds();
-					spriteTriangleButton.setOrigin(trianglesSpriteRect.left +
-						trianglesSpriteRect.width / 2.0f,
-						trianglesSpriteRect.top +
-						trianglesSpriteRect.height / 2.0f);
-					spriteTriangleButton.setPosition(width / 12.0f, 200);
-
-
-			// Rectangle
-			
-				// Text
-					FloatRect rectangleButtonRect = rectangleButton.getLocalBounds();
-					rectangleButton.setOrigin(rectangleButtonRect.left +
-						rectangleButtonRect.width / 2.0f,
-						rectangleButtonRect.top +
-						rectangleButtonRect.height / 2.0f);
-					rectangleButton.setPosition(width / 12.0f, 400);
-
-				// Sprite
-					FloatRect rectangleSpriteRect = spriteRectangleButton.getLocalBounds();
-					spriteRectangleButton.setOrigin(rectangleSpriteRect.left +
-						rectangleSpriteRect.width / 2.0f,
-						rectangleSpriteRect.top +
-						rectangleSpriteRect.height / 2.0f);
-					spriteRectangleButton.setPosition(width / 12.0f, 400);
-
-			// Rhombus
-			
-				// Text
-					FloatRect pentagonButtonRect = pentagonButton.getLocalBounds();
-					pentagonButton.setOrigin(pentagonButtonRect.left +
-						pentagonButtonRect.width / 2.0f,
-						pentagonButtonRect.top +
-						pentagonButtonRect.height / 2.0f);
-					pentagonButton.setPosition(width / 12.0f, 600);
-
-				// Sprite 
-					FloatRect rhombusSpriteRect = spritePentagonButton.getLocalBounds();
-					spritePentagonButton.setOrigin(rhombusSpriteRect.left +
-						rhombusSpriteRect.width / 2.0f,
-						rhombusSpriteRect.top +
-						rhombusSpriteRect.height / 2.0f);
-					spritePentagonButton.setPosition(width / 12.0f, 600);
-
-			// Reset
-			
-				// Text
-					FloatRect goCrazyButtonRect = goCrazyButton.getLocalBounds();
-					goCrazyButton.setOrigin(goCrazyButtonRect.left +
-						goCrazyButtonRect.width / 2.0f,
-						goCrazyButtonRect.top +
-						goCrazyButtonRect.height / 2.0f);
-					goCrazyButton.setPosition(width / 12.0f, 800);
-
-				// Sprite
-					FloatRect goCrazySpriteRect = spriteGoCrazyButton.getLocalBounds();
-					spriteGoCrazyButton.setOrigin(goCrazySpriteRect.left +
-						goCrazySpriteRect.width / 2.0f,
-						goCrazySpriteRect.top +
-						goCrazySpriteRect.height / 2.0f);
-					spriteGoCrazyButton.setPosition(width / 12.0f, 800);
-					
-
-			// Button sprite resizing
-					spriteTriangleButton.scale(buttonScaling);
-
-					spriteRectangleButton.scale(buttonScaling);
-					spritePentagonButton.scale(buttonScaling);
-					spriteGoCrazyButton.scale(buttonScaling);
-					
->>>>>>> e344b0bfa99bd23215e3f560126d161724ce3588
 
 
 	// The orb
@@ -493,7 +328,6 @@ int main()
 	kirby.scale(kirbyScaling);
 
 	// Track whether the game is running
-<<<<<<< HEAD
 	bool created = false;
 	int nodes = 0;
 	int nodes_max = 0;
@@ -516,29 +350,6 @@ int main()
 		jumboKirbyRect.top +
 		jumboKirbyRect.height / 2.0f);
 	secretJumboKirby.setPosition(width / 3.0f, 2000);
-		bool created = false;
-		int nodes = 0;
-		int nodes_max = 0;
-		bool reset = false;
-		bool selection_made = false;
-		bool secretFound = false;
-
-	//	secret jumbo kirby
-		Texture jumboKirby;
-		jumboKirby.loadFromFile("./kirby.png");
-		Vector2f jumboKirbyScaling = { 3, 3 };
-
-
-		Sprite secretJumboKirby;
-		secretJumboKirby.setTexture(textureKirby);
-
-		FloatRect jumboKirbyRect = secretJumboKirby.getLocalBounds();
-		secretJumboKirby.setOrigin(jumboKirbyRect.left +
-			jumboKirbyRect.width / 2.0f,
-			jumboKirbyRect.top +
-			jumboKirbyRect.height / 2.0f);
-		secretJumboKirby.setPosition(width / 3.0f, 2000);
->>>>>>> e344b0bfa99bd23215e3f560126d161724ce3588
 
 
 
@@ -588,11 +399,7 @@ int main()
 						nodes_max = 10;
 						selection_made = true;
 					}
-<<<<<<< HEAD
 
-=======
-					
->>>>>>> e344b0bfa99bd23215e3f560126d161724ce3588
 					else if (selection_made = true && nodes_max > 1)
 					{
 						std::cout << "the left button was pressed" << std::endl;
@@ -610,8 +417,6 @@ int main()
 				}
 			}
 		}
-			
-		
 
 
 
@@ -682,16 +487,15 @@ int main()
 		}
 
 		// Clear everything from the last frame
-			window.clear();
+		window.clear();
 
-			window.setView(view);
+		window.setView(view);
 
 		// Draw background
-			window.draw(spriteBackground);
+		window.draw(spriteBackground);
 
 		// Initialize the vector for point-making
 
-<<<<<<< HEAD
 		if ((nodes == nodes_max && selection_made == true) && created == false)
 		{
 			fractalCreation((float)nodes, vertices, newPoints);
@@ -706,22 +510,6 @@ int main()
 			secretFound = false;
 		}
 
-=======
-			if ((nodes == nodes_max && selection_made == true) && created == false)
-			{
-				fractalCreation((float)nodes, vertices, newPoints);
-				created = true;
-
-			}
-
-		// Secret Jumbo Kirby
-			if (secretFound == true)
-			{
-				kirby.scale(jumboKirbyScaling);
-				secretFound = false;
-			}
-		
->>>>>>> e344b0bfa99bd23215e3f560126d161724ce3588
 		// Draw the points
 		//RectangleShape shape{ Vector2f{4,4} };
 		//shape.setFillColor(Color::Cyan);
@@ -741,7 +529,6 @@ int main()
 		}
 
 		// Basic message text
-<<<<<<< HEAD
 		window.draw(messageText);
 
 
@@ -764,32 +551,8 @@ int main()
 
 		for (size_t i = 0; i < newPoints.size(); i++)
 		{
-=======
-			window.draw(messageText);
 
-			
-		// Buttons
-			window.draw(spriteTriangleButton);
-			window.draw(triangleButton);
-				
-			window.draw(spriteRectangleButton);
-			window.draw(rectangleButton);
->>>>>>> e344b0bfa99bd23215e3f560126d161724ce3588
-
-			window.draw(spritePentagonButton);
-			window.draw(pentagonButton);
-
-			window.draw(spriteGoCrazyButton);
-			window.draw(goCrazyButton);
-
-
-			window.draw(secretJumboKirby);
-		// Drawing the fractal
-
-			for (size_t i = 0; i < newPoints.size(); i++)
-			{
-
-				//window.clear(); // ***** this does something very cool/funny
+			//window.clear(); // ***** this does something very cool/funny
 
 		//FloatRect pointRect = shape.getLocalBounds();
 			FloatRect pointRect = kirby.getLocalBounds();
