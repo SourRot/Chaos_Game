@@ -32,6 +32,19 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 	float scaling = numberOfNodes / (numberOfNodes + 3);
 	Vector2f randomPoint(0, 0);
 
+	Vector2f centerPoint(0, 0);
+	float xTotal = 0.0;
+	float yTotal = 0.0;
+
+	for (int i = 0; i < numberOfNodes; i++)
+	{
+		
+		xTotal += startingPoints.at(i).x;
+		yTotal += startingPoints.at(i).y;
+
+	}
+	centerPoint.x = xTotal / numberOfNodes;
+	centerPoint.y = yTotal / numberOfNodes;
 
 
 	if (startingPoints.at(0).x > startingPoints.at(1).x)
@@ -51,12 +64,17 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 		randomPoint.y = startingPoints.at(0).y + (startingPoints.at(0).y - startingPoints.at(1).y) * scaling;
 	}
 	//Vector2f randomPoint( (startingPoints.at(0).x + startingPoints.at(1).x) * scaling, (startingPoints.at(0).y + startingPoints.at(1).y) * scaling);
+	
 	createdPoints.push_back(randomPoint);
 	int selection = 0;
 
 
+	if (numberOfNodes == 4)
+	{
+		startingPoints.push_back(centerPoint);
+	}
 
-	for (size_t i = 0; i < 3000; i++)
+	for (size_t i = 0; i < 10000; i++)
 	{
 
 		selection = rand() % startingPoints.size();
@@ -64,7 +82,11 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 		{
 			randomPoint = Vector2f((randomPoint.x + startingPoints.at(selection).x) / 2, (randomPoint.y + startingPoints.at(selection).y) / 2);
 		}
-		else 
+		else if (numberOfNodes == 4)
+		{
+			randomPoint = Vector2f(randomPoint.x + (startingPoints.at(selection).x - randomPoint.x) * .6666, randomPoint.y + (startingPoints.at(selection).y - randomPoint.y) * .6666);
+		}
+		else
 		{
 			randomPoint = Vector2f(randomPoint.x + (startingPoints.at(selection).x - randomPoint.x) * scaling, randomPoint.y + (startingPoints.at(selection).y - randomPoint.y) * scaling);
 		}
@@ -73,6 +95,12 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 
 		createdPoints.push_back(randomPoint);
 	}
+
+	if (numberOfNodes == 4)
+	{
+		startingPoints.erase(startingPoints.begin() + startingPoints.size() - 1);
+	}
+	
 
 }
 
@@ -115,8 +143,8 @@ int main()
 			Text rectangleButton;
 			Sprite spriteRectangleButton;
 
-			Text hexagonButton;
-			Sprite spriteHexagonButton;
+			Text rhombusButton;
+			Sprite spriteRhombusButton;
 
 	//		Text resetButton;
 	//		Sprite spriteResetButton;
@@ -132,9 +160,9 @@ int main()
 			rectangleButton.setCharacterSize(44);
 			rectangleButton.setColor(Color::Black);
 
-			hexagonButton.setFont(font);
-			hexagonButton.setCharacterSize(44);
-			hexagonButton.setColor(Color::Black);
+			rhombusButton.setFont(font);
+			rhombusButton.setCharacterSize(44);
+			rhombusButton.setColor(Color::Black);
 
 	//		resetButton.setFont(font);
 	//		resetButton.setCharacterSize(44);
@@ -143,7 +171,7 @@ int main()
 		// Button texts
 			triangleButton.setString("Triangle");
 			rectangleButton.setString("Rectangle");
-			hexagonButton.setString("Hexagon");
+			rhombusButton.setString("Rhombus");
 		//	resetButton.setString("Reset");
 
 	// Button texture assignment
@@ -163,7 +191,7 @@ int main()
 				spriteRectangleButton.setTexture(textureButton);
 
 			// Hexagon
-				spriteHexagonButton.setTexture(textureButton);
+				spriteRhombusButton.setTexture(textureButton);
 
 			// Reset
 				//spriteResetButton.setTexture(textureButton);
@@ -207,23 +235,23 @@ int main()
 						rectangleSpriteRect.height / 2.0f);
 					spriteRectangleButton.setPosition(width / 12.0f, 400);
 
-			// Hexagon
+			// Rhombus
 			
 				// Text
-					FloatRect hexagonButtonRect = hexagonButton.getLocalBounds();
-					hexagonButton.setOrigin(hexagonButtonRect.left +
-						hexagonButtonRect.width / 2.0f,
-						hexagonButtonRect.top +
-						hexagonButtonRect.height / 2.0f);
-					hexagonButton.setPosition(width / 12.0f, 600);
+					FloatRect rhombusButtonRect = rhombusButton.getLocalBounds();
+					rhombusButton.setOrigin(rhombusButtonRect.left +
+						rhombusButtonRect.width / 2.0f,
+						rhombusButtonRect.top +
+						rhombusButtonRect.height / 2.0f);
+					rhombusButton.setPosition(width / 12.0f, 600);
 
 				// Sprite 
-					FloatRect hexagonSpriteRect = spriteHexagonButton.getLocalBounds();
-					spriteHexagonButton.setOrigin(hexagonSpriteRect.left +
-						hexagonSpriteRect.width / 2.0f,
-						hexagonSpriteRect.top +
-						hexagonSpriteRect.height / 2.0f);
-					spriteHexagonButton.setPosition(width / 12.0f, 600);
+					FloatRect rhombusSpriteRect = spriteRhombusButton.getLocalBounds();
+					spriteRhombusButton.setOrigin(rhombusSpriteRect.left +
+						rhombusSpriteRect.width / 2.0f,
+						rhombusSpriteRect.top +
+						rhombusSpriteRect.height / 2.0f);
+					spriteRhombusButton.setPosition(width / 12.0f, 600);
 
 		/*	// Reset
 			
@@ -248,7 +276,7 @@ int main()
 					spriteTriangleButton.scale(buttonScaling);
 
 					spriteRectangleButton.scale(buttonScaling);
-					spriteHexagonButton.scale(buttonScaling);
+					spriteRhombusButton.scale(buttonScaling);
 					//spriteResetButton.scale(buttonScaling);
 					
 
@@ -286,6 +314,11 @@ int main()
 
 	Sprite kirby;
 	kirby.setTexture(textureKirby);
+
+
+	Vector2f kirbyScaling = { .2, .2 };
+
+	kirby.scale(kirbyScaling);
 
 	// Track whether the game is running
 		bool created = false;
@@ -329,7 +362,7 @@ int main()
 						nodes_max = 4;
 						selection_made = true;
 					}
-					else if (spriteHexagonButton.getGlobalBounds().contains(translated_pos))
+					else if (spriteRhombusButton.getGlobalBounds().contains(translated_pos))
 					{
 						nodes_max = 5;
 						selection_made = true;
@@ -475,8 +508,8 @@ int main()
 				window.draw(spriteRectangleButton);
 				window.draw(rectangleButton);
 
-				window.draw(spriteHexagonButton);
-				window.draw(hexagonButton);
+				window.draw(spriteRhombusButton);
+				window.draw(rhombusButton);
 
 				//window.draw(spriteResetButton);
 				//window.draw(resetButton);
