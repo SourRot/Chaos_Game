@@ -571,7 +571,7 @@ int main()
 
 				//window.clear(); // ***** this does something very cool/funny
 
-			//FloatRect pointRect = shape.getLocalBounds();
+		//FloatRect pointRect = shape.getLocalBounds();
 			FloatRect pointRect = kirby.getLocalBounds();
 			//shape.setOrigin(pointRect.left +
 			kirby.setOrigin(pointRect.left +
