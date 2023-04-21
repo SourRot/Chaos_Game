@@ -36,7 +36,7 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 
 	if (startingPoints.at(0).x > startingPoints.at(1).x)
 	{
-		randomPoint.x = startingPoints.at(0).x + (startingPoints.at(1).x - startingPoints.at(0).x) * scaling;
+		randomPoint.x = startingPoints.at(0).x + (startingPoints.at(0).x - startingPoints.at(1).x) * scaling;
 	}
 	else
 	{
@@ -44,7 +44,7 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 	}
 	if (startingPoints.at(0).y > startingPoints.at(1).y)
 	{
-		randomPoint.y = startingPoints.at(0).y + (startingPoints.at(1).y - startingPoints.at(0).y) * scaling;
+		randomPoint.y = startingPoints.at(0).y + (startingPoints.at(0).y - startingPoints.at(1).y) * scaling;
 	}
 	else
 	{
@@ -56,7 +56,7 @@ void fractalCreation(float numberOfNodes, vector<Vector2f> startingPoints, vecto
 
 
 
-	for (size_t i = 0; i < 5000; i++)
+	for (size_t i = 0; i < 3000; i++)
 	{
 
 		selection = rand() % startingPoints.size();
@@ -255,9 +255,6 @@ int main()
 	// Create a texture to hold a graphic on the GPU
 		Texture textureBackground;
 
-	// Load a graphic into the texture
-		textureBackground.loadFromFile("./background_stars.png");
-
 	// Backround sprite creation
 		Sprite spriteBackground;
 
@@ -265,7 +262,7 @@ int main()
 		Vector2u TextureSize;  // Added to store texture size.
 		Vector2u WindowSize;   // Added to store window size.
 
-		if (!textureBackground.loadFromFile("background_stars.png"))
+		if (!textureBackground.loadFromFile("./background_stars.png"))
 		{
 			return -1;
 		}
@@ -359,17 +356,9 @@ int main()
 					}
 				}
 			}
-
-			if (Keyboard::isKeyPressed(Keyboard::Space))
-			{
-				if (nodes_max >= 3)
-				{
-						fractalCreation((float)nodes, vertices, newPoints);
-						created = true;
-
-				}
-			}
 		}
+			
+		
 
 		if (Keyboard::isKeyPressed(Keyboard::Escape))
 		{
@@ -445,6 +434,15 @@ int main()
 		// Draw background
 			window.draw(spriteBackground);
 
+		// Initialize the vector for point-making
+
+			if ((nodes == nodes_max && selection_made == true) && created == false)
+			{
+				fractalCreation((float)nodes, vertices, newPoints);
+				created = true;
+
+			}
+		
 		// Draw the points
 		//RectangleShape shape{ Vector2f{4,4} };
 		//shape.setFillColor(Color::Cyan);
@@ -462,6 +460,8 @@ int main()
 			//window.draw(shape);
 			window.draw(kirby);
 		}
+
+
 
 
 			// Basic message text
