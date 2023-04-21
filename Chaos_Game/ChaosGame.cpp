@@ -164,8 +164,10 @@ int main()
 		spriteBackground.setTexture(textureBackground);
 		spriteBackground.setScale(ScaleX, ScaleY);      // Set scale.  
 	}
+
 	// Set the spriteBackground to cover the screen
 	spriteBackground.setPosition(0, 0);
+
 	// Buttons
 
 		// Variables for various button parts
@@ -178,8 +180,9 @@ int main()
 			Text pentagonButton;
 			Sprite spritePentagonButton;
 
-	//		Text resetButton;
-	//		Sprite spriteResetButton;
+			Text goCrazyButton;
+			Sprite spriteGoCrazyButton;
+
 
 			Vector2f buttonScaling = {2, 2 };
 
@@ -196,15 +199,15 @@ int main()
 			pentagonButton.setCharacterSize(44);
 			pentagonButton.setColor(Color::Black);
 
-	//		resetButton.setFont(font);
-	//		resetButton.setCharacterSize(44);
-	//		resetButton.setColor(Color::Black);
+			goCrazyButton.setFont(font);
+			goCrazyButton.setCharacterSize(44);
+			goCrazyButton.setColor(Color::Black);
 
 		// Button texts
 			triangleButton.setString("Triangle");
 			rectangleButton.setString("Rectangle");
 			pentagonButton.setString("Pentagon");
-		//	resetButton.setString("Reset");
+			goCrazyButton.setString("Go Crazy");
 
 	// Button texture assignment
 
@@ -226,7 +229,7 @@ int main()
 				spritePentagonButton.setTexture(textureButton);
 
 			// Reset
-				//spriteResetButton.setTexture(textureButton);
+				spriteGoCrazyButton.setTexture(textureButton);
 
 		// Button Positions
 
@@ -285,31 +288,31 @@ int main()
 						rhombusSpriteRect.height / 2.0f);
 					spritePentagonButton.setPosition(width / 12.0f, 600);
 
-		/*	// Reset
+			// Reset
 			
 				// Text
-					FloatRect resetButtonRect = resetButton.getLocalBounds();
-					resetButton.setOrigin(resetButtonRect.left +
-						resetButtonRect.width / 2.0f,
-						resetButtonRect.top +
-						resetButtonRect.height / 2.0f);
-					resetButton.setPosition(width / 12.0f, 800);
+					FloatRect goCrazyButtonRect = goCrazyButton.getLocalBounds();
+					goCrazyButton.setOrigin(goCrazyButtonRect.left +
+						goCrazyButtonRect.width / 2.0f,
+						goCrazyButtonRect.top +
+						goCrazyButtonRect.height / 2.0f);
+					goCrazyButton.setPosition(width / 12.0f, 800);
 
 				// Sprite
-					FloatRect resetSpriteRect = spriteResetButton.getLocalBounds();
-					spriteResetButton.setOrigin(resetSpriteRect.left +
-						resetSpriteRect.width / 2.0f,
-						resetSpriteRect.top +
-						resetSpriteRect.height / 2.0f);
-					spriteResetButton.setPosition(width / 12.0f, 800);
-					*/
+					FloatRect goCrazySpriteRect = spriteGoCrazyButton.getLocalBounds();
+					spriteGoCrazyButton.setOrigin(goCrazySpriteRect.left +
+						goCrazySpriteRect.width / 2.0f,
+						goCrazySpriteRect.top +
+						goCrazySpriteRect.height / 2.0f);
+					spriteGoCrazyButton.setPosition(width / 12.0f, 800);
+					
 
 			// Button sprite resizing
 					spriteTriangleButton.scale(buttonScaling);
 
 					spriteRectangleButton.scale(buttonScaling);
 					spritePentagonButton.scale(buttonScaling);
-					//spriteResetButton.scale(buttonScaling);
+					spriteGoCrazyButton.scale(buttonScaling);
 					
 
 
@@ -330,7 +333,23 @@ int main()
 		int nodes_max = 0;
 		bool reset = false;
 		bool selection_made = false;
+		bool secretFound = false;
 
+	//	secret jumbo kirby
+		Texture jumboKirby;
+		jumboKirby.loadFromFile("./kirby.png");
+		Vector2f jumboKirbyScaling = { 3, 3 };
+
+
+		Sprite secretJumboKirby;
+		secretJumboKirby.setTexture(textureKirby);
+
+		FloatRect jumboKirbyRect = secretJumboKirby.getLocalBounds();
+		secretJumboKirby.setOrigin(jumboKirbyRect.left +
+			jumboKirbyRect.width / 2.0f,
+			jumboKirbyRect.top +
+			jumboKirbyRect.height / 2.0f);
+		secretJumboKirby.setPosition(width / 3.0f, 2000);
 
 
 
@@ -355,6 +374,10 @@ int main()
 					auto mouse_pos = Mouse::getPosition(window);
 					auto translated_pos = window.mapPixelToCoords(mouse_pos);
 
+					if (secretJumboKirby.getGlobalBounds().contains(translated_pos))
+					{
+						secretFound = true;
+					}
 
 					if (spriteTriangleButton.getGlobalBounds().contains(translated_pos))
 					{
@@ -371,12 +394,12 @@ int main()
 						nodes_max = 6;
 						selection_made = true;
 					}
-					/*else if (spriteResetButton.getGlobalBounds().contains(translated_pos))
+					else if (spriteGoCrazyButton.getGlobalBounds().contains(translated_pos))
 					{
-						created = false;
-						selection_made = false;
+						nodes_max = 10;
+						selection_made = true;
 					}
-					*/
+					
 					else if (selection_made = true && nodes_max > 1)
 					{
 						std::cout << "the left button was pressed" << std::endl;
@@ -406,7 +429,7 @@ int main()
 		stringstream ss;
 		if (created == false && selection_made == false)
 		{
-			ss << "Choose your shape! Press spacebar to multiply the Kirbys";
+			ss << "Choose your shape!";
 			messageText.setString(ss.str());
 			FloatRect textRect = messageText.getLocalBounds();
 			messageText.setOrigin(textRect.left +
@@ -419,7 +442,7 @@ int main()
 		{
 			if (nodes_max == 4)
 			{
-				ss << "Triangle? It's a little basic... but alright!";
+				ss << "Sierkirby Triangle";
 				messageText.setString(ss.str());
 				FloatRect textRect = messageText.getLocalBounds();
 				messageText.setOrigin(textRect.left +
@@ -430,7 +453,7 @@ int main()
 			}
 			else if (nodes_max == 5)
 			{
-				ss << "Rectangle! Now we're heating up!";
+				ss << "Kirbtangle!";
 				messageText.setString(ss.str());
 				FloatRect textRect = messageText.getLocalBounds();
 				messageText.setOrigin(textRect.left +
@@ -441,7 +464,7 @@ int main()
 			}
 			else if (nodes_max == 6)
 			{
-				ss << "Kirby spaceship at maximum capacity";
+				ss << "Kirbagon";
 				messageText.setString(ss.str());
 				FloatRect textRect = messageText.getLocalBounds();
 				messageText.setOrigin(textRect.left +
@@ -479,6 +502,13 @@ int main()
 				created = true;
 
 			}
+
+		// Secret Jumbo Kirby
+			if (secretFound == true)
+			{
+				kirby.scale(jumboKirbyScaling);
+				secretFound = false;
+			}
 		
 		// Draw the points
 		//RectangleShape shape{ Vector2f{4,4} };
@@ -512,9 +542,11 @@ int main()
 			window.draw(spritePentagonButton);
 			window.draw(pentagonButton);
 
-			//window.draw(spriteResetButton);
-			//window.draw(resetButton);
+			window.draw(spriteGoCrazyButton);
+			window.draw(goCrazyButton);
 
+
+			window.draw(secretJumboKirby);
 		// Drawing the fractal
 
 			for (size_t i = 0; i < newPoints.size(); i++)
